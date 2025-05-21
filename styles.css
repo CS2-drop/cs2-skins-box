@@ -1,7 +1,7 @@
-/* Цветовая схема: серый, оранжевый, белый */
+/* Колірна схема: сірий, оранжевий, білий */
 
 body {
-  background-color: #f5f5f5; /* светло-серый фон */
+  background-color: #f5f5f5; /* світло-сірий фон */
   color: #333;
   font-family: Arial, sans-serif;
   margin: 0;
@@ -9,8 +9,8 @@ body {
 }
 
 header, footer {
-  background-color: #fff; /* белый */
-  border-bottom: 3px solid #FFA500; /* оранжевый акцент */
+  background-color: #fff; /* білий фон */
+  border-bottom: 3px solid #FFA500; /* оранжевий акцент */
   text-align: center;
   padding: 10px;
 }
@@ -82,7 +82,7 @@ main {
   margin-top: 20px;
 }
 
-/* Пример простой анимации тряски */
+/* Проста анімація трясіння */
 @keyframes shake {
   0% { transform: translate(1px, 1px); }
   10% { transform: translate(-1px, -2px); }
