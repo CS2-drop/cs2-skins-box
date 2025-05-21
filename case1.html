@@ -1,55 +1,53 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
-  <title>Открытие Бокса 1</title>
+  <title>Відкриття кейсу 1</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>Бокс 1</h1>
+    <h1>Кейс 1</h1>
     <a href="index.html" class="back-button">← Назад</a>
   </header>
   
   <main>
     <div class="case-container">
       <div class="box-animation" id="boxAnimation">
-         <!-- Начальное изображение закрытого бокса -->
-         <img src="images/box_closed.png" id="boxImage" alt="Бокс">
+         <!-- Зображення закритого кейсу -->
+         <img src="images/box_closed.png" id="boxImage" alt="Закритий кейс">
       </div>
-      <button id="openButton">Открыть Бокс</button>
+      <button id="openButton">Відкрити кейс</button>
       <div class="result" id="result"></div>
     </div>
   </main>
   
   <script>
-    // Пример массива скинов (при наличии картинок их можно поместить в папку images)
+    // Приклад масиву зі скінами (зображення необхідно розмістити у папці images)
     const skins = [
-      {name:"Классический AWP", img:"images/skin_awp.png"},
-      {name:"Огненный AK-47", img:"images/skin_ak47.png"},
-      {name:"Ледяная M4A4", img:"images/skin_m4a4.png"},
-      {name:"Бронзовый USP", img:"images/skin_usp.png"},
-      {name:"Золотой Glock", img:"images/skin_glock.png"}
+      {name:"Класичний AWP", img:"images/skin_awp.png"},
+      {name:"Вогняний AK-47", img:"images/skin_ak47.png"},
+      {name:"Льодяний M4A4", img:"images/skin_m4a4.png"},
+      {name:"Бронзовий USP", img:"images/skin_usp.png"},
+      {name:"Золотий Glock", img:"images/skin_glock.png"}
     ];
     
     document.getElementById('openButton').addEventListener('click', function(){
-      // Блокируем кнопку, чтобы предотвратить повторные клики
+      // Блокуємо кнопку, щоб уникнути повторного кліку
       this.disabled = true;
       const boxImage = document.getElementById('boxImage');
       const resultDiv = document.getElementById('result');
       
-      // Добавляем класс для анимации (например, лёгкое трясение)
+      // Додаємо клас для анімації (наприклад, легке трясіння)
       boxImage.classList.add('shake');
       
-      // По истечении времени анимации выбираем случайный скин
+      // Після 2 секунд анімації вибираємо випадковий скин і виводимо результат
       setTimeout(() => {
         boxImage.classList.remove('shake');
-        // Здесь можно заменить изображение на открытый бокс, если есть соответствующий ресурс:
-        // boxImage.src = "images/box_open.png";
         const skin = skins[Math.floor(Math.random() * skins.length)];
-        resultDiv.innerHTML = `<h2>Поздравляем! Вы получили: ${skin.name}</h2>
+        resultDiv.innerHTML = `<h2>Вітаємо! Ви отримали: ${skin.name}</h2>
                                <img src="${skin.img}" alt="${skin.name}" class="skin-image">`;
-      }, 2000); // длительность анимации 2000 мс
+      }, 2000); // тривалість анімації – 2000 мс
     });
   </script>
 </body>
