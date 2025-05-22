@@ -80,17 +80,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Принудительный reflow для применения первоначального состояния
     void skinsTrack.offsetWidth;
 
-    // Выбираем случайный индекс скина во второй половине ленты для реалистичного эффекта
+    // Вычисляем реальную ширину одного элемента скина с учётом отступов
+    let itemWidth = 170; // значение по умолчанию
+    const firstSkinImg = skinsTrack.querySelector('img');
+    if (firstSkinImg) {
+      const computedStyle = getComputedStyle(firstSkinImg);
+      const width = firstSkinImg.clientWidth;
+      const marginLeft = parseFloat(computedStyle.marginLeft);
+      const marginRight = parseFloat(computedStyle.marginRight);
+      itemWidth = width + marginLeft + marginRight;
+    }
+
+    // Вычисляем ширину контейнера, используя clientWidth (без учета бордеров)
+    const container = document.querySelector('.animation-container');
+    const containerWidth = container.clientWidth;
+
+    // Выбираем случайный индекс скина из второй половины ленты для реалистичного эффекта
     const minIndex = Math.floor(reel.length / 2);
     const maxIndex = reel.length - 1;
     const targetIndex = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
 
-    // Допустим, ширина каждого элемента (150px + маргины по 10px с каждой стороны = 170px)
-    const itemWidth = 170;
-    // Вычисляем смещение так, чтобы выбранный скин оказался по центру контейнера
-    const container = document.querySelector('.animation-container');
-    const containerWidth = container.offsetWidth;
-    const targetOffset = targetIndex * itemWidth - (containerWidth / 2 - itemWidth / 2);
+    // Вычисляем смещение так, чтобы выбранный скин оказался по центру контейнера:
+    // (левый край элемента + половина его ширины) минус половина ширины контейнера.
+    const targetOffset = targetIndex * itemWidth + (itemWidth / 2) - (containerWidth / 2);
 
     // Запускаем анимацию прокрутки ленты скинов
     setTimeout(() => {
