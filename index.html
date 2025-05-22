@@ -3,52 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SkinBox – Открытия кейсов</title>
+  <title>SkinBox – Открытие кейсов</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Подключение шрифта Roboto -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="container">
-    <!-- Хедер с неоновым градиентом -->
-    <header class="header">
-      <div class="logo">SkinBox</div>
-    </header>
+  <header class="header">
+    <h1>SkinBox</h1>
+  </header>
 
-    <!-- Основной контент: сетка кейсов -->
-    <main class="main-content">
-      <section class="case-boxes">
-        <!-- Каждый блок представляет кейс – при клике открывается модальное окно -->
-        <div class="case" data-title="Кейс 1" data-description="Описание кейса 1">
-          <div class="case-image" style="background-image: url('https://via.placeholder.com/250x250?text=Skin+1');"></div>
-          <div class="case-title">Кейс 1</div>
+  <main class="main">
+    <div class="case-grid">
+      <!-- Кейс 1 -->
+      <div class="case" id="case1">
+        <div class="case-cover" style="background-image: url('https://via.placeholder.com/250x250?text=Cover+1');">
+          <span class="case-label">Кейс 1</span>
         </div>
-        <div class="case" data-title="Кейс 2" data-description="Описание кейса 2">
-          <div class="case-image" style="background-image: url('https://via.placeholder.com/250x250?text=Skin+2');"></div>
-          <div class="case-title">Кейс 2</div>
+        <div class="case-content">
+          <div class="skin-container">
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin1+Case1" alt="Skin1 Case1" />
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin2+Case1" alt="Skin2 Case1" />
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin3+Case1" alt="Skin3 Case1" />
+          </div>
         </div>
-        <div class="case" data-title="Кейс 3" data-description="Описание кейса 3">
-          <div class="case-image" style="background-image: url('https://via.placeholder.com/250x250?text=Skin+3');"></div>
-          <div class="case-title">Кейс 3</div>
-        </div>
-        <!-- Добавьте столько кейсов, сколько необходимо -->
-      </section>
-    </main>
+      </div>
 
-    <!-- Футер -->
-    <footer class="footer">
-      SkinBox © 2025
-    </footer>
-  </div>
+      <!-- Кейс 2 -->
+      <div class="case" id="case2">
+        <div class="case-cover" style="background-image: url('https://via.placeholder.com/250x250?text=Cover+2');">
+          <span class="case-label">Кейс 2</span>
+        </div>
+        <div class="case-content">
+          <div class="skin-container">
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin1+Case2" alt="Skin1 Case2" />
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin2+Case2" alt="Skin2 Case2" />
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin3+Case2" alt="Skin3 Case2" />
+          </div>
+        </div>
+      </div>
 
-  <!-- Модальное окно для отображения подробностей кейса -->
-  <div id="modal" class="modal">
-    <div class="modal-inner">
-      <span class="close">&times;</span>
-      <h2 id="modalTitle"></h2>
-      <p id="modalDesc"></p>
+      <!-- Кейс 3 -->
+      <div class="case" id="case3">
+        <div class="case-cover" style="background-image: url('https://via.placeholder.com/250x250?text=Cover+3');">
+          <span class="case-label">Кейс 3</span>
+        </div>
+        <div class="case-content">
+          <div class="skin-container">
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin1+Case3" alt="Skin1 Case3" />
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin2+Case3" alt="Skin2 Case3" />
+            <img class="skin" src="https://via.placeholder.com/200x200?text=Skin3+Case3" alt="Skin3 Case3" />
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    <p>SkinBox &copy; 2025</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
