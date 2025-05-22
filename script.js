@@ -31,17 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
-  // Обработчики клика для кнопок открытия кейса
+  // Назначаем обработчики клика для каждой кнопки открытия кейса
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
-      if (animationInProgress) return; // не допускаем повторного клика во время анимации
+      if (animationInProgress) return; // Не допускаем повторного клика во время анимации
       const caseDiv = this.closest('.case');
       const caseId = caseDiv.getAttribute('data-case');
       openCase(caseId);
     });
   });
 
-  // Закрытие модального окна
+  // Закрытие модального окна при клике на кнопку или по полю вне содержимого
   closeModalBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) {
     if (e.target === modal) { 
@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Очищаем предыдущие скины
     skinsTrack.innerHTML = '';
 
+    // Получаем набор скинов для выбранного кейса и формируем длинный массив для анимации
     const skins = casesData[caseId];
-    // Собираем длинный ряд скинов для плавной анимации (повторяем массив несколько раз)
     let reel = [];
     const repeatCount = 10; // число повторов для эффекта бесконечной прокрутки
     for (let i = 0; i < repeatCount; i++) {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Добавляем изображения скинов в ленту
     reel.forEach((skin) => {
       const img = document.createElement('img');
-      // Если skin.img пустой, используем запасной URL
+      // Если skin.img пустой, используем запасной URL для placeholder
       img.src = skin.img ? skin.img : 'https://via.placeholder.com/150?text=No+Image';
       img.alt = skin.name;
       skinsTrack.appendChild(img);
@@ -76,14 +76,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Показываем модальное окно
     modal.classList.remove('hidden');
-    void skinsTrack.offsetWidth; // Принудительный reflow
+
+    // Принудительный reflow для корректного применения стилей
+    void skinsTrack.offsetWidth;
 
     // Ждём загрузки всех изображений в ленте
     const images = Array.from(skinsTrack.querySelectorAll('img'));
     Promise.all(images.map(img => {
       return img.complete
         ? Promise.resolve()
-        : new Promise(resolve => {
+        : new Promise(resolve => { 
             img.onload = resolve;
             img.onerror = resolve;
           });
@@ -92,10 +94,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Функция вычисляет размеры и запускает анимацию
+  // Функция для вычисления размеров и запуска анимации
   function calculateAndAnimate(reel) {
     // Вычисляем реальную ширину первого элемента скина с учётом margin
-    let itemWidth = 170; // дефолтное значение
+    let itemWidth = 170; // значение по умолчанию
     const firstImg = skinsTrack.querySelector('img');
     if (firstImg) {
       const rect = firstImg.getBoundingClientRect();
@@ -104,27 +106,27 @@ document.addEventListener('DOMContentLoaded', function() {
       const marginRight = parseFloat(computedStyle.marginRight);
       itemWidth = rect.width + marginLeft + marginRight;
     }
-    
-    // Вычисляем ширину контейнера анимации
+
+    // Вычисляем ширину контейнера анимации (без учета бордеров)
     const container = document.querySelector('.animation-container');
     const containerWidth = container.clientWidth;
-    
+
     // Выбираем случайный индекс скина из второй половины ленты для эффекта
     const minIndex = Math.floor(reel.length / 2);
     const maxIndex = reel.length - 1;
     const targetIndex = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
-    
+
     // Вычисляем смещение так, чтобы выбранный скин оказался по центру контейнера:
     // (левый край элемента + половина его ширины) минус половина ширины контейнера.
     const targetOffset = targetIndex * itemWidth + (itemWidth / 2) - (containerWidth / 2);
-    
-    // Запускаем анимацию прокрутки ленты скинов
+
+    // Запускаем анимацию прокрутки ленты скинов с задержкой в 50 мс
     setTimeout(() => {
       skinsTrack.style.transition = 'transform 4s cubic-bezier(0.33, 1, 0.68, 1)';
       skinsTrack.style.transform = `translateX(-${targetOffset}px)`;
     }, 50);
-    
-    // После завершения анимации выводим результат открытия кейса
+
+    // После завершения анимации выводим результат
     skinsTrack.addEventListener('transitionend', function handler() {
       skinsTrack.removeEventListener('transitionend', handler);
       const winningSkin = reel[targetIndex];
