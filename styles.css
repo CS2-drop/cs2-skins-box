@@ -1,123 +1,124 @@
-/* Сброс стилей */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Основные стили страницы */
+/* Общие стили */
 body {
-  font-family: 'Roboto', sans-serif;
-  background: #111;
-  color: #fff;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
 }
 
-.header {
+header {
+  background-color: #1f1f1f;
   padding: 20px;
   text-align: center;
-  background: #000;
-  border-bottom: 1px solid #444;
 }
 
-.header h1 {
-  font-size: 2rem;
+h1 {
+  margin: 0;
 }
 
-.main {
-  padding: 20px;
-}
-
-.footer {
-  padding: 20px;
-  text-align: center;
-  background: #000;
-  border-top: 1px solid #444;
-}
-
-/* Сетка кейсов */
-.case-grid {
+/* Стили для списка кейсов */
+.cases {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px;
   gap: 20px;
 }
 
-/* Оформление кейса */
 .case {
-  width: 250px;
-  border: 1px solid #444;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #222;
+  background-color: #1f1f1f;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 220px;
+}
+
+.case img {
+  border-radius: 10px;
+  max-width: 100%;
+}
+
+.open-case-btn {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background-color: #ff6f61;
+  color: white;
   cursor: pointer;
-  transition: transform 0.3s;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
-.case:hover {
-  transform: translateY(-5px);
+.open-case-btn:hover {
+  background-color: #ff8f81;
 }
 
-/* Оболочка кейса */
-.case-cover {
+/* Стили для модального окна */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 250px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-
-.case-label {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-weight: 700;
-}
-
-/* Скрытый блок скинов: изначально высота 0 */
-.case-content {
-  height: 0;
-  overflow: hidden;
-  transition: height 0.5s ease;
-}
-
-/* При открытом кейсе высота выставлена фиксированно */
-.case.open .case-content {
-  height: 220px; /* высота области с скинами */
-}
-
-/* Контейнер для скинов – располагаются в одну линию */
-.skin-container {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
-  /* Ширина контейнера подбирается под количество скинов (3 скина, 200px каждый + 2*10px отступ) */
-  width: 620px; 
-  /* Для эффекта прокрутки изначально transform равен 0 */
-  transform: translateX(0);
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
 }
 
-/* При добавлении класса .animate запустится анимация прокрутки */
-.case.open .skin-container.animate {
-  animation: scrollSkins 3s ease-out forwards;
+.modal.hidden {
+  display: none;
 }
 
-/* Ключевые кадры прокрутки: смещаем на 370px влево (620px - 250px = 370px) */
-@keyframes scrollSkins {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-370px);
-  }
+.modal-content {
+  background-color: #1f1f1f;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 80%;
+  max-width: 600px;
 }
 
-/* Стили для изображения скина */
-.skin {
-  width: 200px;
-  height: 200px;
-  margin-right: 10px;
-  border: 2px solid #555;
-  border-radius: 4px;
-  object-fit: cover;
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Контейнер для анимации скинов */
+.animation-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 220px;
+  border: 2px solid #ff6f61;
+  border-radius: 10px;
+  background-color: #000;
+  margin-bottom: 20px;
+}
+
+/* Лента скинов */
+.skins-track {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.skins-track img {
+  width: 150px;
+  height: 150px;
+  margin: 0 10px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+}
+
+/* Результат открытия кейса */
+.result {
+  text-align: center;
+  font-size: 20px;
 }
