@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
+  // Находим кнопки открытия кейсов и элементы модального окна
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
-  // Вместо ленты используем контейнер для новой анимации
   const animationContainer = document.querySelector('.animation-container');
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
-  // Обработчики клика для кнопок открытия кейса
+  // Обработчик для каждой кнопки «Открыть кейс»
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (animationInProgress) return;
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Закрытие модального окна по нажатию на кнопку или по клику вне диалога
+  // Закрываем модальное окно по клику на кнопку или вне содержимого
   closeModalBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) {
     if (e.target === modal) {
@@ -53,24 +53,24 @@ document.addEventListener('DOMContentLoaded', function() {
   function openCase(caseId) {
     animationInProgress = true;
     resultDiv.innerHTML = '';
-    animationContainer.innerHTML = '';
+    animationContainer.innerHTML = ''; // очищаем старую анимацию
 
+    // Получаем набор скинов для выбранного кейса и выбираем выигрышный случайным образом
     const skins = casesData[caseId];
-    // Выбираем выигрышный скин случайным образом из набора
     const winningIndex = Math.floor(Math.random() * skins.length);
     const winningSkin = skins[winningIndex];
 
-    // Создаём элемент изображения для анимации
+    // Создаём элемент изображения с новым эффектом анимации (dropBounce)
     const animImg = document.createElement('img');
     animImg.src = winningSkin.img ? winningSkin.img : 'https://via.placeholder.com/150?text=No+Image';
     animImg.alt = winningSkin.name;
-    animImg.classList.add('rotate-animation'); // прикрепляем новый класс анимации
+    animImg.classList.add('drop-animation');
 
-    // Добавляем изображение в контейнер анимации
+    // Добавляем элемент в контейнер анимации и показываем модальное окно
     animationContainer.appendChild(animImg);
     modal.classList.remove('hidden');
 
-    // По окончании CSS-анимации выводим результат
+    // После окончания CSS-анимации выводим результат
     animImg.addEventListener('animationend', function handler() {
       animImg.removeEventListener('animationend', handler);
       resultDiv.innerHTML = `<p>Поздравляем! Вы получили: <strong>${winningSkin.name}</strong></p>
