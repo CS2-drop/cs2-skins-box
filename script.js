@@ -2,25 +2,25 @@ document.addEventListener('DOMContentLoaded', function() {
   // Объект с набором скинов для каждого кейса
   const casesData = {
     "1": [
-      {name: "Skin A1", img: "images/skins/Skin A1.jpg"},
-      {name: "Skin A2", img: "images/skins/Skin A2.jpg"},
-      {name: "Skin A3", img: "images/skins/Skin A3.jpg"},
-      {name: "Skin A4", img: "images/skins/Skin A4.jpg"}, 
-      {name: "Skin A5", img: "images/skins/Skin A5.jpg"}
+      { name: "Skin A1", img: "images/skins/Skin A1.jpg" },
+      { name: "Skin A2", img: "images/skins/Skin A2.jpg" },
+      { name: "Skin A3", img: "images/skins/Skin A3.jpg" },
+      { name: "Skin A4", img: "images/skins/Skin A4.jpg" },
+      { name: "Skin A5", img: "images/skins/Skin A5.jpg" }
     ],
     "2": [
-      {name: "Skin B1", img: "https://via.placeholder.com/150?text=Skin+B1"},
-      {name: "Skin B2", img: "https://via.placeholder.com/150?text=Skin+B2"},
-      {name: "Skin B3", img: "https://via.placeholder.com/150?text=Skin+B3"},
-      {name: "Skin B4", img: "https://via.placeholder.com/150?text=Skin+B4"},
-      {name: "Skin B5", img: "https://via.placeholder.com/150?text=Skin+B5"}
+      { name: "Skin B1", img: "https://via.placeholder.com/150?text=Skin+B1" },
+      { name: "Skin B2", img: "https://via.placeholder.com/150?text=Skin+B2" },
+      { name: "Skin B3", img: "https://via.placeholder.com/150?text=Skin+B3" },
+      { name: "Skin B4", img: "https://via.placeholder.com/150?text=Skin+B4" },
+      { name: "Skin B5", img: "https://via.placeholder.com/150?text=Skin+B5" }
     ],
     "3": [
-      {name: "Skin C1", img: "https://via.placeholder.com/150?text=Skin+C1"},
-      {name: "Skin C2", img: "https://via.placeholder.com/150?text=Skin+C2"},
-      {name: "Skin C3", img: "https://via.placeholder.com/150?text=Skin+C3"},
-      {name: "Skin C4", img: "https://via.placeholder.com/150?text=Skin+C4"},
-      {name: "Skin C5", img: "https://via.placeholder.com/150?text=Skin+C5"}
+      { name: "Skin C1", img: "https://via.placeholder.com/150?text=Skin+C1" },
+      { name: "Skin C2", img: "https://via.placeholder.com/150?text=Skin+C2" },
+      { name: "Skin C3", img: "https://via.placeholder.com/150?text=Skin+C3" },
+      { name: "Skin C4", img: "https://via.placeholder.com/150?text=Skin+C4" },
+      { name: "Skin C5", img: "https://via.placeholder.com/150?text=Skin+C5" }
     ]
   };
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Принудительный reflow для применения первоначального состояния
     void skinsTrack.offsetWidth;
 
-    // Выбираем случайный индекс продукта во второй половине ленты для реалистичного эффекта
+    // Выбираем случайный индекс скина во второй половине ленты для реалистичного эффекта
     const minIndex = Math.floor(reel.length / 2);
     const maxIndex = reel.length - 1;
     const targetIndex = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
