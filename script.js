@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
       {name: "Skin A1", img: "images/skins/Skin A1.jpg"},
       {name: "Skin A2", img: "images/skins/Skin A2.jpg"},
       {name: "Skin A3", img: "images/skins/Skin A3.jpg"},
-      {name: "Skin A4", img: ""},
+      {name: "Skin A4", img: ""}, // если значение пустое, будет использоваться запасной URL
       {name: "Skin A5", img: ""}
     ],
     "2": [
@@ -66,9 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Добавляем изображения скинов в ленту
-    reel.forEach((skin, index) => {
+    reel.forEach((skin) => {
       const img = document.createElement('img');
-      img.src = skin.img;
+      // Если skin.img пустой, используем запасной URL для placeholder
+      img.src = skin.img ? skin.img : 'https://via.placeholder.com/150?text=No+Image';
       img.alt = skin.name;
       skinsTrack.appendChild(img);
     });
@@ -101,8 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
     skinsTrack.addEventListener('transitionend', function handler() {
       skinsTrack.removeEventListener('transitionend', handler);
       const winningSkin = reel[targetIndex];
+      // Если картинки нет, используем запасной URL
+      const skinImage = winningSkin.img ? winningSkin.img : 'https://via.placeholder.com/150?text=No+Image';
       resultDiv.innerHTML = `<p>Поздравляем! Вы получили: <strong>${winningSkin.name}</strong></p>
-                             <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">`;
+                             <img src="${skinImage}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">`;
       animationInProgress = false;
     });
   }
