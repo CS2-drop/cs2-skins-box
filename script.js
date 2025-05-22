@@ -65,6 +65,20 @@ document.addEventListener('DOMContentLoaded', function() {
       reel = reel.concat(skins);
     }
 
+      const firstSkinImg = skinsTrack.querySelector('img');
+      if (firstSkinImg) {
+      firstSkinImg.addEventListener('load', () => {
+      calculateAndAnimate();
+    });
+} else {
+  calculateAndAnimate();
+}
+
+function calculateAndAnimate() {
+  // Ваш код для вычисления itemWidth, containerWidth и запуска анимации
+}
+
+
     // Добавляем изображения скинов в ленту
     reel.forEach((skin) => {
       const img = document.createElement('img');
