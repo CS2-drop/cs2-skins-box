@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkinBox - Університетський проект</title>
+  <title>SkinBox – Університетський Проект</title>
   <link rel="stylesheet" href="style.css">
   <!-- Підключення шрифту Roboto -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -14,22 +14,30 @@
   </header>
 
   <main>
-    <!-- Секція з блоковими елементами -->
+    <!-- Сітка блоків із прикладами кейсів -->
     <section class="box-grid">
-      <div class="box">Кейс 1</div>
-      <div class="box">Кейс 2</div>
-      <div class="box">Кейс 3</div>
-      <div class="box">Кейс 4</div>
-      <div class="box">Кейс 5</div>
-      <div class="box">Кейс 6</div>
+      <div class="box" data-title="Кейс 1" data-description="Детальний опис кейсу 1">Кейс 1</div>
+      <div class="box" data-title="Кейс 2" data-description="Детальний опис кейсу 2">Кейс 2</div>
+      <div class="box" data-title="Кейс 3" data-description="Детальний опис кейсу 3">Кейс 3</div>
+      <div class="box" data-title="Кейс 4" data-description="Детальний опис кейсу 4">Кейс 4</div>
+      <div class="box" data-title="Кейс 5" data-description="Детальний опис кейсу 5">Кейс 5</div>
+      <div class="box" data-title="Кейс 6" data-description="Детальний опис кейсу 6">Кейс 6</div>
     </section>
   </main>
 
+  <!-- Модальне вікно -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p id="modalDescription"></p>
+    </div>
+  </div>
+
   <footer>
-    <p>SkinBox © 2025</p>
+    <p>SkinBox &copy; 2025</p>
   </footer>
 
-  <!-- Мінімальна інтерактивність: обробка кліку по кожному блоку -->
   <script src="script.js"></script>
 </body>
 </html>
