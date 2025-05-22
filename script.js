@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Объект с набором скинов для каждого кейса
   const casesData = {
     "1": [
-      {name: "Skin A1", img: ""},
-      {name: "Skin A2", img: ""},
-      {name: "Skin A3", img: ""},
+      {name: "Skin A1", img: "images/skins/Skin A1.jpg"},
+      {name: "Skin A2", img: "images/skins/Skin A2.jpg"},
+      {name: "Skin A3", img: "images/skins/Skin A3.jpg"},
       {name: "Skin A4", img: ""},
       {name: "Skin A5", img: ""}
     ],
