@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
       {name: "Skin A1", img: "images/skins/Skin A1.jpg"},
       {name: "Skin A2", img: "images/skins/Skin A2.jpg"},
       {name: "Skin A3", img: "images/skins/Skin A3.jpg"},
-      {name: "Skin A4", img: ""}, // если значение пустое, будет использоваться запасной URL
-      {name: "Skin A5", img: ""}
+      {name: "Skin A4", img: "images/skins/Skin A4.jpg"}, 
+      {name: "Skin A5", img: "images/skins/Skin A5.jpg"}
     ],
     "2": [
       {name: "Skin B1", img: "https://via.placeholder.com/150?text=Skin+B1"},
