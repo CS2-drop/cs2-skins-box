@@ -5,145 +5,119 @@
   box-sizing: border-box;
 }
 
-/* Базовые стили для html, body */
-html, body {
-  width: 100%;
-  height: 100%;
+/* Основные стили страницы */
+body {
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #1a1a1a, #000);
+  background: #111;
   color: #fff;
 }
 
-/* Контейнер для организации вертикального расположения */
-.container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Хедер с неоновым эффектом */
 .header {
   padding: 20px;
   text-align: center;
-  background: linear-gradient(90deg, #ff00ff, #00ffff);
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+  background: #000;
+  border-bottom: 1px solid #444;
 }
 
-.logo {
+.header h1 {
   font-size: 2rem;
-  font-weight: 700;
 }
 
-/* Основной контент */
-.main-content {
-  flex: 1;
-  padding: 40px;
+.main {
+  padding: 20px;
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #000;
+  border-top: 1px solid #444;
 }
 
 /* Сетка кейсов */
-.case-boxes {
+.case-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
+  gap: 20px;
 }
 
-/* Оформление отдельного кейса */
+/* Оформление кейса */
 .case {
   width: 250px;
-  height: 350px;
-  background: #222;
-  border: 2px solid #444;
-  border-radius: 10px;
+  border: 1px solid #444;
+  border-radius: 8px;
   overflow: hidden;
-  position: relative;
+  background: #222;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s;
 }
 
 .case:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
 }
 
-.case-image {
+/* Оболочка кейса */
+.case-cover {
   width: 100%;
-  height: 70%;
-  background-position: center;
+  height: 250px;
   background-size: cover;
-}
-
-.case-title {
-  text-align: center;
-  padding: 10px;
-  font-size: 1.2rem;
-  background-color: #111;
-}
-
-/* Футер */
-.footer {
-  text-align: center;
-  padding: 15px;
-  background: #111;
-  border-top: 1px solid #333;
-  font-size: 0.9rem;
-}
-
-/* Стили модального окна */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-inner {
-  background: #1a1a1a;
-  padding: 20px 30px;
-  border: 2px solid #444;
-  border-radius: 10px;
-  text-align: center;
-  animation: slideDown 0.5s ease;
-  max-width: 500px;
-  width: 90%;
+  background-position: center;
   position: relative;
 }
 
-@keyframes slideDown {
+.case-label {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+/* Скрытый блок скинов: изначально высота 0 */
+.case-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.5s ease;
+}
+
+/* При открытом кейсе высота выставлена фиксированно */
+.case.open .case-content {
+  height: 220px; /* высота области с скинами */
+}
+
+/* Контейнер для скинов – располагаются в одну линию */
+.skin-container {
+  display: flex;
+  /* Ширина контейнера подбирается под количество скинов (3 скина, 200px каждый + 2*10px отступ) */
+  width: 620px; 
+  /* Для эффекта прокрутки изначально transform равен 0 */
+  transform: translateX(0);
+}
+
+/* При добавлении класса .animate запустится анимация прокрутки */
+.case.open .skin-container.animate {
+  animation: scrollSkins 3s ease-out forwards;
+}
+
+/* Ключевые кадры прокрутки: смещаем на 370px влево (620px - 250px = 370px) */
+@keyframes scrollSkins {
   from {
-    transform: translateY(-20px);
-    opacity: 0;
+    transform: translateX(0);
   }
   to {
-    transform: translateY(0);
-    opacity: 1;
+    transform: translateX(-370px);
   }
 }
 
-.modal-inner h2 {
-  margin-bottom: 10px;
-}
-
-.modal-inner p {
-  line-height: 1.6;
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 2rem;
-  cursor: pointer;
-  color: #fff;
-  transition: color 0.3s;
-}
-
-.close:hover {
-  color: #ff00ff;
+/* Стили для изображения скина */
+.skin {
+  width: 200px;
+  height: 200px;
+  margin-right: 10px;
+  border: 2px solid #555;
+  border-radius: 4px;
+  object-fit: cover;
 }
