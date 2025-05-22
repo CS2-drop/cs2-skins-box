@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
-  // Назначаем обработчики клика для каждой кнопки открытия кейса
+  // Обработчики клика для кнопок открытия кейса
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (animationInProgress) return; // не допускаем повторного клика во время анимации
@@ -65,24 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
       reel = reel.concat(skins);
     }
 
-      const firstSkinImg = skinsTrack.querySelector('img');
-      if (firstSkinImg) {
-      firstSkinImg.addEventListener('load', () => {
-      calculateAndAnimate();
-    });
-} else {
-  calculateAndAnimate();
-}
-
-function calculateAndAnimate() {
-  // Ваш код для вычисления itemWidth, containerWidth и запуска анимации
-}
-
-
     // Добавляем изображения скинов в ленту
     reel.forEach((skin) => {
       const img = document.createElement('img');
-      // Если skin.img пустой, используем запасной URL для placeholder
+      // Если skin.img пустой, используем запасной URL
       img.src = skin.img ? skin.img : 'https://via.placeholder.com/150?text=No+Image';
       img.alt = skin.name;
       skinsTrack.appendChild(img);
@@ -90,45 +76,58 @@ function calculateAndAnimate() {
 
     // Показываем модальное окно
     modal.classList.remove('hidden');
+    void skinsTrack.offsetWidth; // Принудительный reflow
 
-    // Принудительный reflow для применения первоначального состояния
-    void skinsTrack.offsetWidth;
+    // Ждём загрузки всех изображений в ленте
+    const images = Array.from(skinsTrack.querySelectorAll('img'));
+    Promise.all(images.map(img => {
+      return img.complete
+        ? Promise.resolve()
+        : new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve;
+          });
+    })).then(() => {
+      calculateAndAnimate(reel);
+    });
+  }
 
-    // Вычисляем реальную ширину одного элемента скина с учётом отступов
-    let itemWidth = 170; // значение по умолчанию
-    const firstSkinImg = skinsTrack.querySelector('img');
-    if (firstSkinImg) {
-      const computedStyle = getComputedStyle(firstSkinImg);
-      const width = firstSkinImg.clientWidth;
+  // Функция вычисляет размеры и запускает анимацию
+  function calculateAndAnimate(reel) {
+    // Вычисляем реальную ширину первого элемента скина с учётом margin
+    let itemWidth = 170; // дефолтное значение
+    const firstImg = skinsTrack.querySelector('img');
+    if (firstImg) {
+      const rect = firstImg.getBoundingClientRect();
+      const computedStyle = getComputedStyle(firstImg);
       const marginLeft = parseFloat(computedStyle.marginLeft);
       const marginRight = parseFloat(computedStyle.marginRight);
-      itemWidth = width + marginLeft + marginRight;
+      itemWidth = rect.width + marginLeft + marginRight;
     }
-
-    // Вычисляем ширину контейнера, используя clientWidth (без учета бордеров)
+    
+    // Вычисляем ширину контейнера анимации
     const container = document.querySelector('.animation-container');
     const containerWidth = container.clientWidth;
-
-    // Выбираем случайный индекс скина из второй половины ленты для реалистичного эффекта
+    
+    // Выбираем случайный индекс скина из второй половины ленты для эффекта
     const minIndex = Math.floor(reel.length / 2);
     const maxIndex = reel.length - 1;
     const targetIndex = Math.floor(Math.random() * (maxIndex - minIndex + 1)) + minIndex;
-
+    
     // Вычисляем смещение так, чтобы выбранный скин оказался по центру контейнера:
     // (левый край элемента + половина его ширины) минус половина ширины контейнера.
     const targetOffset = targetIndex * itemWidth + (itemWidth / 2) - (containerWidth / 2);
-
+    
     // Запускаем анимацию прокрутки ленты скинов
     setTimeout(() => {
       skinsTrack.style.transition = 'transform 4s cubic-bezier(0.33, 1, 0.68, 1)';
       skinsTrack.style.transform = `translateX(-${targetOffset}px)`;
     }, 50);
-
+    
     // После завершения анимации выводим результат открытия кейса
     skinsTrack.addEventListener('transitionend', function handler() {
       skinsTrack.removeEventListener('transitionend', handler);
       const winningSkin = reel[targetIndex];
-      // Если картинки нет, используем запасной URL
       const skinImage = winningSkin.img ? winningSkin.img : 'https://via.placeholder.com/150?text=No+Image';
       resultDiv.innerHTML = `<p>Поздравляем! Вы получили: <strong>${winningSkin.name}</strong></p>
                              <img src="${skinImage}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">`;
