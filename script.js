@@ -1,30 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   const cases = document.querySelectorAll('.case');
-  const modal = document.getElementById('modal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalDesc = document.getElementById('modalDesc');
-  const closeBtn = document.querySelector('.close');
 
-  // Обработчик клика по кейсу – открывает модальное окно с информацией
-  cases.forEach(item => {
-    item.addEventListener('click', () => {
-      const title = item.getAttribute('data-title');
-      const description = item.getAttribute('data-description');
-      modalTitle.textContent = title;
-      modalDesc.textContent = description;
-      modal.style.display = 'flex';
+  cases.forEach(caseEl => {
+    caseEl.addEventListener('click', function () {
+      // Если кейс уже открыт – закрываем его
+      if (this.classList.contains('open')) {
+        this.classList.remove('open');
+        const skinContainer = this.querySelector('.skin-container');
+        skinContainer.classList.remove('animate');
+        // Сбросим transform, чтобы при повторном открытии анимация начиналась с начала
+        skinContainer.style.transform = 'translateX(0)';
+      } else {
+        // Закрываем ранее открытые кейсы (если нужно, чтобы был открыт только один)
+        cases.forEach(item => {
+          if (item !== this && item.classList.contains('open')) {
+            item.classList.remove('open');
+            item.querySelector('.skin-container').classList.remove('animate');
+            item.querySelector('.skin-container').style.transform = 'translateX(0)';
+          }
+        });
+        // Открываем выбранный кейс
+        this.classList.add('open');
+        const skinContainer = this.querySelector('.skin-container');
+        // Для перезапуска анимации сразу убираем класс animate, затем через короткую задержку добавляем его
+        skinContainer.classList.remove('animate');
+        void skinContainer.offsetWidth; // перезапуск рефлоу
+        skinContainer.classList.add('animate');
+      }
     });
-  });
-
-  // Закрытие модального окна по клику на крестик
-  closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  // Закрытие модального окна, если клик произошёл вне его содержимого
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
   });
 });
