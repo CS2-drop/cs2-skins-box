@@ -1,59 +1,4 @@
-/* Общие стили */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #121212;
-  color: #f0f0f0;
-}
-
-header {
-  background-color: #1f1f1f;
-  padding: 20px;
-  text-align: center;
-}
-
-h1 {
-  margin: 0;
-}
-
-/* Стили для списка кейсов */
-.cases {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 20px;
-  gap: 20px;
-}
-
-.case {
-  background-color: #1f1f1f;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  max-width: 220px;
-}
-
-.case img {
-  border-radius: 10px;
-  max-width: 100%;
-}
-
-.open-case-btn {
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
-  background-color: #ff6f61;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-.open-case-btn:hover {
-  background-color: #ff8f81;
-}
-
-/* Стили для модального окна */
+/* Стили для модального окна (обновлённое оформление) */
 .modal {
   position: fixed;
   top: 0;
@@ -64,7 +9,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 100;
 }
 
 .modal.hidden {
@@ -74,12 +19,14 @@ h1 {
 .modal-content {
   background-color: #1f1f1f;
   padding: 20px;
-  border-radius: 10px;
-  position: relative;
-  width: 80%;
+  border-radius: 15px;
+  width: 90%;
   max-width: 600px;
+  text-align: center;
+  position: relative;
 }
 
+/* Кнопка закрытия модального окна */
 .close {
   position: absolute;
   top: 10px;
@@ -88,37 +35,40 @@ h1 {
   cursor: pointer;
 }
 
-/* Контейнер для анимации скинов */
+/* Область анимации */
 .animation-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 220px;
-  border: 2px solid #ff6f61;
-  border-radius: 10px;
-  background-color: #000;
-  margin-bottom: 20px;
-}
-
-/* Лента скинов */
-.skins-track {
+  height: 250px;
   display: flex;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 
-.skins-track img {
+/* Новая анимация: масштабирование и вращение */
+.rotate-animation {
   width: 150px;
   height: 150px;
-  margin: 0 10px;
-  border-radius: 10px;
-  border: 2px solid #fff;
+  animation: spinScale 3s ease-out forwards;
 }
 
-/* Результат открытия кейса */
+@keyframes spinScale {
+  0% {
+    transform: scale(0.5) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.3) rotate(360deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(720deg);
+    opacity: 1;
+  }
+}
+
+/* Стили для результата открытия кейса */
 .result {
-  text-align: center;
   font-size: 20px;
+  margin-top: 10px;
 }
