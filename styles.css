@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -144,48 +145,26 @@ main {
 }
 
 
-.drop-animation {
+.flip-animation {
   width: 150px;
   height: 150px;
-  -webkit-animation: dropBounce 2s ease-out forwards;
-  animation: dropBounce 2s ease-out forwards;
+  animation: flipIn 1.5s ease-out forwards;
 }
 
-@-webkit-keyframes dropBounce {
+@keyframes flipIn {
   0% {
-    -webkit-transform: translateY(-300px) scale(0.5);
-    transform: translateY(-300px) scale(0.5);
     opacity: 0;
+    transform: perspective(400px) rotateY(90deg) scale(0.3);
   }
-  60% {
-    -webkit-transform: translateY(20px) scale(1.2);
-    transform: translateY(20px) scale(1.2);
+  40% {
     opacity: 1;
+    transform: perspective(400px) rotateY(-10deg) scale(1.05);
   }
-  80% {
-    -webkit-transform: translateY(-10px) scale(0.95);
-    transform: translateY(-10px) scale(0.95);
+  70% {
+    transform: perspective(400px) rotateY(10deg) scale(0.95);
   }
   100% {
-    -webkit-transform: translateY(0) scale(1);
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes dropBounce {
-  0% {
-    transform: translateY(-300px) scale(0.5);
-    opacity: 0;
-  }
-  60% {
-    transform: translateY(20px) scale(1.2);
-    opacity: 1;
-  }
-  80% {
-    transform: translateY(-10px) scale(0.95);
-  }
-  100% {
-    transform: translateY(0) scale(1);
+    transform: perspective(400px) rotateY(0deg) scale(1);
   }
 }
 
