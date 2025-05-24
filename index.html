@@ -15,13 +15,14 @@
       <!-- Первый кейс с локальным изображением -->
       <div class="case" data-case="1">
         <img src="images/cases/case1.jpg" alt="Кейс 1">
-
         
-        <img src="images/skins/Skin A1.jpg" alt="Кейс 1">
-        <img src="images/skins/Skin A2.jpg" alt="Кейс 1">
-        <img src="images/skins/Skin A3.jpg" alt="Кейс 1">
-        <img src="images/skins/Skin A4.jpg" alt="Кейс 1">
-        <img src="images/skins/Skin A5.jpg" alt="Кейс 1">
+        <div class="skins">
+          <img src="images/skins/Skin%20A1.jpg" alt="Скин A1">
+          <img src="images/skins/Skin%20A2.jpg" alt="Скин A2">
+          <img src="images/skins/Skin%20A3.jpg" alt="Скин A3">
+          <img src="images/skins/Skin%20A4.jpg" alt="Скин A4">
+          <img src="images/skins/Skin%20A5.jpg" alt="Скин A5">
+        </div>
         
         <button class="open-case-btn">Открыть кейс 1</button>
       </div>
@@ -31,6 +32,7 @@
         <img src="images/cases/case2.jpg" alt="Кейс 2">
         <button class="open-case-btn">Открыть кейс 2</button>
       </div>
+      
       <!-- Третий кейс с локальным изображением -->
       <div class="case" data-case="3">
         <img src="images/cases/case3.jpg" alt="Кейс 3">
@@ -40,9 +42,9 @@
   </main>
   
   <!-- Модальное окно с анимацией открытия кейса -->
-  <div id="modal" class="modal hidden">
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-content">
-      <span id="close-modal" class="close">&times;</span>
+      <span id="close-modal" class="close" aria-label="Закрыть модальное окно">&times;</span>
       <div class="animation-container">
         <div class="skins-track" id="skinsTrack">
           <!-- Изображения скинов будут добавляться динамически -->
