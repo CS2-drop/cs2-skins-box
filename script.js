@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  /* -------------- Анімація при прокручуванні (Scroll Reveal) -------------- */
   const revealElements = document.querySelectorAll('.case');
   const observerOptions = {
     root: null,
@@ -15,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }, observerOptions);
   revealElements.forEach(el => observer.observe(el));
 
-  /* -------------- Логіка відкриття кейсу з анімацією барабана -------------- */
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
-  // Дані про кейси та скіни
   const casesData = {
     "1": [
       { name: "Скін A1", img: "images/skins/Skin%20A1.jpg" },
@@ -65,17 +62,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Функція для анімації барабана (демонструє прокручування скінів)
   function animateDrumSpin(skins, winningSkin, callback) {
     const track = document.getElementById('skinsTrack');
-    // Очистка попереднього контенту
     track.innerHTML = '';
     
-    const imageHeight = 150; // Висота зображення (має відповідати .drum-skin)
-    const repeats = 20; // Кількість повторень паттерну для ефекту безперервності
+    const imageHeight = 150; 
+    const repeats = 20; 
     let content = '';
     
-    // Формуємо послідовність скінів
+   
     for (let i = 0; i < repeats; i++) {
       skins.forEach(skin => {
         content += `<img src="${skin.img}" alt="${skin.name}" class="drum-skin">`;
@@ -120,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function openCase(caseId) {
     animationInProgress = true;
     resultDiv.innerHTML = '';
-    // Очищення контейнера анімації (бракує попереднього контенту)
+   
     animationContainer.innerHTML = '<div class="skins-track" id="skinsTrack"></div>';
     
     const skins = casesData[caseId];
