@@ -1,11 +1,104 @@
-/* Обновлённое оформление модального окна */
+/* Сброс и базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* Стили для шапки */
+header {
+  background-color: #1e1e1e;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+header h1 {
+  font-size: 2em;
+  color: #f1f1f1;
+}
+
+/* Основной контент */
+main {
+  padding: 20px;
+}
+
+/* Блок кейсов */
+.cases {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Стили карточки кейса */
+.case {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s;
+  width: 300px;
+  opacity: 0;
+}
+
+.case:hover {
+  transform: scale(1.03);
+}
+
+.case img {
+  width: 100%;
+  display: block;
+}
+
+/* Горизонтальная прокрутка для скинов */
+.skins {
+  display: flex;
+  overflow-x: auto;
+  gap: 5px;
+  padding: 10px;
+  background-color: #2a2a2a;
+}
+
+.skins img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #444;
+}
+
+/* Кнопка открытия кейса */
+.open-case-btn {
+  background-color: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.open-case-btn:hover {
+  background-color: #ff8a75;
+}
+
+/* Модальное окно */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,25 +110,27 @@
 }
 
 .modal-content {
-  background: #fff;
+  background: #1e1e1e;
   border-radius: 10px;
   padding: 20px;
   position: relative;
   width: 90%;
   max-width: 500px;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
 }
 
-/* Кнопка закрытия */
+/* Кнопка закрытия модального окна */
 .close {
   position: absolute;
   top: 10px;
   right: 15px;
   font-size: 24px;
   cursor: pointer;
+  color: #fff;
 }
 
-/* Окно анимации */
+/* Контейнер анимации */
 .animation-container {
   height: 300px;
   display: flex;
@@ -43,9 +138,12 @@
   justify-content: center;
   overflow: hidden;
   margin-bottom: 20px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #2a2a2a;
 }
 
-/* Новая анимация: эффект падения с отскоком */
+/* Анимация эффекта падения с отскоком */
 .drop-animation {
   width: 150px;
   height: 150px;
@@ -95,4 +193,26 @@
 .result {
   font-size: 20px;
   margin-top: 10px;
+  color: #fff;
 }
+
+/* Анимация появления элементов при прокрутке */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fadeIn 1s forwards;
+}
+
+/* Можно задать индивидуальную задержку для каждого кейса, если нужно */
+.case:nth-child(1) { animation-delay: 0.2s; }
+.case:nth-child(2) { animation-delay: 0.4s; }
+.case:nth-child(3) { animation-delay: 0.6s; }
