@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Объект с набором скинов для каждого кейса
+  // Набор скинов для каждого кейса
   const casesData = {
     "1": [
       { name: "Skin A1", img: "images/skins/Skin%20A1.jpg" },
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
-  // Находим кнопки для открытия кейсов и элементы модального окна
+  // Элементы модального окна и кнопок
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
-  // Обработчик для каждой кнопки «Открыть кейс»
+  // Обработчик для открытия кейса
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (animationInProgress) return;
@@ -42,15 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Закрываем модальное окно по клику на кнопку закрытия или по клику вне содержимого
+  // Закрытие модального окна при клике на кнопку, вне содержимого или по Escape
   closeModalBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) {
     if (e.target === modal) {
       closeModal();
     }
   });
-
-  // Дополнительно: закрываем модальное окно клавишей Escape
   document.addEventListener('keydown', function(e) {
     if (e.key === "Escape") {
       closeModal();
@@ -62,22 +60,19 @@ document.addEventListener('DOMContentLoaded', function() {
     resultDiv.innerHTML = '';
     animationContainer.innerHTML = ''; // очищаем предыдущую анимацию
 
-    // Получаем набор скинов для выбранного кейса и случайным образом выбираем выигрышный скин
     const skins = casesData[caseId];
     const winningIndex = Math.floor(Math.random() * skins.length);
     const winningSkin = skins[winningIndex];
 
-    // Создаём элемент изображения с эффектом анимации (dropBounce)
+    // Создаём изображение с анимацией dropBounce
     const animImg = document.createElement('img');
-    animImg.src = winningSkin.img ? winningSkin.img : 'https://via.placeholder.com/150?text=No+Image';
+    animImg.src = winningSkin.img || 'https://via.placeholder.com/150?text=No+Image';
     animImg.alt = winningSkin.name;
     animImg.classList.add('drop-animation');
 
-    // Добавляем изображение в контейнер анимации и показываем модальное окно
     animationContainer.appendChild(animImg);
     modal.classList.remove('hidden');
 
-    // После окончания CSS-анимации выводим результат
     animImg.addEventListener('animationend', function handler() {
       animImg.removeEventListener('animationend', handler);
       resultDiv.innerHTML = `<p>Поздравляем! Вы получили: <strong>${winningSkin.name}</strong></p>
@@ -92,4 +87,20 @@ document.addEventListener('DOMContentLoaded', function() {
     resultDiv.innerHTML = '';
     animationInProgress = false;
   }
+
+  // Scroll Reveal: добавление эффекта появления для кейсов
+  const revealElements = document.querySelectorAll('.case');
+  const observerOptions = { root: null, threshold: 0.1 };
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  revealElements.forEach(el => {
+    observer.observe(el);
+  });
 });
