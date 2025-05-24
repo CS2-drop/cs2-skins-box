@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Объект с набором скинов для каждого кейса
   const casesData = {
     "1": [
-      { name: "Skin A1", img: "images/skins/Skin A1.jpg" },
-      { name: "Skin A2", img: "images/skins/Skin A2.jpg" },
-      { name: "Skin A3", img: "images/skins/Skin A3.jpg" },
-      { name: "Skin A4", img: "images/skins/Skin A4.jpg" },
-      { name: "Skin A5", img: "images/skins/Skin A5.jpg" }
+      { name: "Skin A1", img: "images/skins/Skin%20A1.jpg" },
+      { name: "Skin A2", img: "images/skins/Skin%20A2.jpg" },
+      { name: "Skin A3", img: "images/skins/Skin%20A3.jpg" },
+      { name: "Skin A4", img: "images/skins/Skin%20A4.jpg" },
+      { name: "Skin A5", img: "images/skins/Skin%20A5.jpg" }
     ],
     "2": [
       { name: "Skin B1", img: "https://via.placeholder.com/150?text=Skin+B1" },
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
-  // Находим кнопки открытия кейсов и элементы модального окна
+  // Находим кнопки для открытия кейсов и элементы модального окна
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Закрываем модальное окно по клику на кнопку или вне содержимого
+  // Закрываем модальное окно по клику на кнопку закрытия или по клику вне содержимого
   closeModalBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) {
     if (e.target === modal) {
@@ -50,23 +50,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Дополнительно: закрываем модальное окно клавишей Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+      closeModal();
+    }
+  });
+
   function openCase(caseId) {
     animationInProgress = true;
     resultDiv.innerHTML = '';
-    animationContainer.innerHTML = ''; // очищаем старую анимацию
+    animationContainer.innerHTML = ''; // очищаем предыдущую анимацию
 
-    // Получаем набор скинов для выбранного кейса и выбираем выигрышный случайным образом
+    // Получаем набор скинов для выбранного кейса и случайным образом выбираем выигрышный скин
     const skins = casesData[caseId];
     const winningIndex = Math.floor(Math.random() * skins.length);
     const winningSkin = skins[winningIndex];
 
-    // Создаём элемент изображения с новым эффектом анимации (dropBounce)
+    // Создаём элемент изображения с эффектом анимации (dropBounce)
     const animImg = document.createElement('img');
     animImg.src = winningSkin.img ? winningSkin.img : 'https://via.placeholder.com/150?text=No+Image';
     animImg.alt = winningSkin.name;
     animImg.classList.add('drop-animation');
 
-    // Добавляем элемент в контейнер анимации и показываем модальное окно
+    // Добавляем изображение в контейнер анимации и показываем модальное окно
     animationContainer.appendChild(animImg);
     modal.classList.remove('hidden');
 
