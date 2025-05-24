@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Набор скинов для каждого кейса
+  // Объект с наборами скинов для каждого кейса
   const casesData = {
     "1": [
       { name: "Skin A1", img: "images/skins/Skin%20A1.jpg" },
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
-  // Элементы модального окна и кнопок
+  // Элементы модального окна и кнопки
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
-  // Обработчик для открытия кейса
+  // Обработчик клика по кнопкам открытия кейсов
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (animationInProgress) return;
@@ -42,29 +42,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Закрытие модального окна при клике на кнопку, вне содержимого или по Escape
+  // Закрытие модального окна (кнопка, клик вне содержимого, клавиша Escape)
   closeModalBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      closeModal();
-    }
+    if (e.target === modal) closeModal();
   });
   document.addEventListener('keydown', function(e) {
-    if (e.key === "Escape") {
-      closeModal();
-    }
+    if (e.key === "Escape") closeModal();
   });
 
   function openCase(caseId) {
     animationInProgress = true;
     resultDiv.innerHTML = '';
-    animationContainer.innerHTML = ''; // очищаем предыдущую анимацию
+    animationContainer.innerHTML = '';  // очищаем предыдущую анимацию
 
+    // Случайный выбор скина
     const skins = casesData[caseId];
     const winningIndex = Math.floor(Math.random() * skins.length);
     const winningSkin = skins[winningIndex];
 
-    // Создаём изображение с анимацией dropBounce
+    // Создаем изображение с анимацией dropBounce
     const animImg = document.createElement('img');
     animImg.src = winningSkin.img || 'https://via.placeholder.com/150?text=No+Image';
     animImg.alt = winningSkin.name;
@@ -73,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     animationContainer.appendChild(animImg);
     modal.classList.remove('hidden');
 
+    // По завершении анимации выводим результат
     animImg.addEventListener('animationend', function handler() {
       animImg.removeEventListener('animationend', handler);
       resultDiv.innerHTML = `<p>Поздравляем! Вы получили: <strong>${winningSkin.name}</strong></p>
@@ -88,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     animationInProgress = false;
   }
 
-  // Scroll Reveal: добавление эффекта появления для кейсов
+  // Scroll Reveal: наблюдение за карточками кейсов для запуска анимации при прокрутке
   const revealElements = document.querySelectorAll('.case');
   const observerOptions = { root: null, threshold: 0.1 };
   const observer = new IntersectionObserver((entries, observer) => {
@@ -99,8 +97,5 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }, observerOptions);
-
-  revealElements.forEach(el => {
-    observer.observe(el);
-  });
+  revealElements.forEach(el => observer.observe(el));
 });
