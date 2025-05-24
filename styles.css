@@ -49,7 +49,29 @@
 .drop-animation {
   width: 150px;
   height: 150px;
+  -webkit-animation: dropBounce 2s ease-out forwards;
   animation: dropBounce 2s ease-out forwards;
+}
+
+@-webkit-keyframes dropBounce {
+  0% {
+    -webkit-transform: translateY(-300px) scale(0.5);
+    transform: translateY(-300px) scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    -webkit-transform: translateY(20px) scale(1.2);
+    transform: translateY(20px) scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translateY(-10px) scale(0.95);
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    -webkit-transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes dropBounce {
