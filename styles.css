@@ -1,4 +1,3 @@
-/* Сброс и базовые стили */
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +11,6 @@ body {
   line-height: 1.6;
 }
 
-/* Стили для шапки */
 header {
   background-color: #1e1e1e;
   padding: 20px;
@@ -25,12 +23,10 @@ header h1 {
   color: #f1f1f1;
 }
 
-/* Основной контент */
 main {
   padding: 20px;
 }
 
-/* Блок кейсов */
 .cases {
   display: flex;
   flex-wrap: wrap;
@@ -38,7 +34,6 @@ main {
   gap: 20px;
 }
 
-/* Стили карточки кейса */
 .case {
   background-color: #1e1e1e;
   border-radius: 8px;
@@ -58,7 +53,6 @@ main {
   display: block;
 }
 
-/* Горизонтальная прокрутка для скинов */
 .skins {
   display: flex;
   overflow-x: auto;
@@ -75,7 +69,6 @@ main {
   border: 1px solid #444;
 }
 
-/* Кнопка открытия кейса */
 .open-case-btn {
   background-color: #ff6f61;
   color: #fff;
@@ -91,7 +84,6 @@ main {
   background-color: #ff8a75;
 }
 
-/* Модальное окно */
 .modal {
   position: fixed;
   top: 0;
@@ -120,7 +112,6 @@ main {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
 }
 
-/* Кнопка закрытия модального окна */
 .close {
   position: absolute;
   top: 10px;
@@ -130,7 +121,6 @@ main {
   color: #fff;
 }
 
-/* Контейнер анимации */
 .animation-container {
   height: 300px;
   display: flex;
@@ -143,7 +133,6 @@ main {
   background-color: #2a2a2a;
 }
 
-/* Анимация эффекта падения с отскоком */
 .drop-animation {
   width: 150px;
   height: 150px;
@@ -189,14 +178,12 @@ main {
   }
 }
 
-/* Стили для результата открытия кейса */
 .result {
   font-size: 20px;
   margin-top: 10px;
   color: #fff;
 }
 
-/* Анимация появления элементов при прокрутке */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -212,7 +199,6 @@ main {
   animation: fadeIn 1s forwards;
 }
 
-/* Можно задать индивидуальную задержку для каждого кейса, если нужно */
 .case:nth-child(1) { animation-delay: 0.2s; }
 .case:nth-child(2) { animation-delay: 0.4s; }
 .case:nth-child(3) { animation-delay: 0.6s; }
