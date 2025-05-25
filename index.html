@@ -4,7 +4,162 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Відкриття кейсів CS2</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
+    header h1 {
+      font-size: 2em;
+      color: #f1f1f1;
+    }
+    
+    main {
+      padding: 20px;
+    }
+    .cases {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .case {
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s;
+      width: 300px;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    .case:hover {
+      transform: scale(1.03);
+    }
+    .case img {
+      width: 100%;
+      display: block;
+    }
+    
+    .skins {
+      display: flex;
+      overflow-x: auto;
+      gap: 5px;
+      padding: 10px;
+      background-color: #2a2a2a;
+    }
+    .skins img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #444;
+    }
+    
+    .open-case-btn {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .open-case-btn:hover {
+      background-color: #ff8a75;
+    }
+    
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+    .modal.hidden {
+      display: none;
+    }
+    .modal-content {
+      background: #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+      position: relative;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #fff;
+    }
+    
+    .animation-container {
+      height: 300px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+      position: relative;
+    }
+    
+    /* Картинка в "барабане" */
+    .drum-skin {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .reveal {
+      animation: fadeIn 1s forwards;
+    }
+    .case:nth-child(1) { animation-delay: 0.2s; }
+    .case:nth-child(2) { animation-delay: 0.4s; }
+    .case:nth-child(3) { animation-delay: 0.6s; }
+    
+    .result {
+      font-size: 20px;
+      margin-top: 10px;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -12,7 +167,6 @@
   </header>
   <main>
     <section class="cases">
-     
       <div class="case" data-case="1">
         <img src="images/cases/case1.jpg" alt="Кейс 1">
         <div class="skins">
@@ -40,13 +194,176 @@
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-content">
       <span id="close-modal" class="close" aria-label="Закрити модальне вікно">&times;</span>
-      <div class="animation-container">
-        <div class="skins-track" id="skinsTrack"></div>
-      </div>
+      <div class="animation-container"></div>
       <div id="result" class="result"></div>
     </div>
   </div>
   
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Анимация появления кейсов при прокрутке
+      const revealElements = document.querySelectorAll('.case');
+      const observerOptions = { root: null, threshold: 0.1 };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      revealElements.forEach(el => observer.observe(el));
+      
+      // Элементы страницы
+      const openCaseButtons = document.querySelectorAll('.open-case-btn');
+      const modal = document.getElementById('modal');
+      const closeModalBtn = document.getElementById('close-modal');
+      const animationContainer = document.querySelector('.animation-container');
+      const resultDiv = document.getElementById('result');
+      let animationInProgress = false;
+      
+      // Данные кейсов
+      const casesData = {
+        "1": [
+          { name: "Скін A1", img: "images/skins/Skin%20A1.jpg" },
+          { name: "Скін A2", img: "images/skins/Skin%20A2.jpg" },
+          { name: "Скін A3", img: "images/skins/Skin%20A3.jpg" },
+          { name: "Скін A4", img: "images/skins/Skin%20A4.jpg" },
+          { name: "Скін A5", img: "images/skins/Skin%20A5.jpg" }
+        ],
+        "2": [
+          { name: "Скін B1", img: "https://via.placeholder.com/150?text=Skin+B1" },
+          { name: "Скін B2", img: "https://via.placeholder.com/150?text=Skin+B2" },
+          { name: "Скін B3", img: "https://via.placeholder.com/150?text=Skin+B3" },
+          { name: "Скін B4", img: "https://via.placeholder.com/150?text=Skin+B4" },
+          { name: "Скін B5", img: "https://via.placeholder.com/150?text=Skin+B5" }
+        ],
+        "3": [
+          { name: "Скін C1", img: "https://via.placeholder.com/150?text=Skin+C1" },
+          { name: "Скін C2", img: "https://via.placeholder.com/150?text=Skin+C2" },
+          { name: "Скін C3", img: "https://via.placeholder.com/150?text=Skin+C3" },
+          { name: "Скін C4", img: "https://via.placeholder.com/150?text=Skin+C4" },
+          { name: "Скін C5", img: "https://via.placeholder.com/150?text=Skin+C5" }
+        ]
+      };
+      
+      // Обработчики для кнопок открытия кейса
+      openCaseButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (animationInProgress) return;
+          const caseDiv = this.closest('.case');
+          const caseId = caseDiv.getAttribute('data-case');
+          openCase(caseId);
+        });
+      });
+      
+      closeModalBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModal();
+      });
+      
+      // Функция открытия кейса с бесконечным вращением (инфинити) и последующей остановкой
+      function openCase(caseId) {
+        animationInProgress = true;
+        resultDiv.innerHTML = '';
+        
+        // Создаем контейнер для анимации барабана
+        animationContainer.innerHTML = '<div class="skins-track" id="skinsTrack"></div>';
+        const track = document.getElementById('skinsTrack');
+        
+        const skins = casesData[caseId];
+        const imageWidth = 150;
+        // Для непрерывного цикла создаём две копии набора изображений
+        let content = '';
+        for (let i = 0; i < 2; i++) {
+          skins.forEach(skin => {
+            content += `<img src="${skin.img}" alt="${skin.name}" class="drum-skin">`;
+          });
+        }
+        track.innerHTML = content;
+        track.style.display = 'flex';
+        
+        // Запускаем бесконечное вращение
+        let currentOffset = 0;
+        let spinSpeed = 0.5; // пикселей в миллисекунду (настройте по желанию)
+        let spinning = true;
+        let infiniteSpinFrameId;
+        let lastTimestamp = null;
+        function infiniteSpin(timestamp) {
+          if (!lastTimestamp) lastTimestamp = timestamp;
+          const delta = timestamp - lastTimestamp;
+          lastTimestamp = timestamp;
+          currentOffset += spinSpeed * delta;
+          // Один цикл равен количеству скинов * ширина одного изображения
+          const singleCycle = skins.length * imageWidth;
+          const effectiveOffset = currentOffset % singleCycle;
+          track.style.transform = `translateX(-${effectiveOffset}px)`;
+          if (spinning) {
+            infiniteSpinFrameId = requestAnimationFrame(infiniteSpin);
+          }
+        }
+        spinning = true;
+        infiniteSpinFrameId = requestAnimationFrame(infiniteSpin);
+        
+        // После 3 секунд останавливаем бесконечное вращение и запускаем замедление
+        setTimeout(() => {
+          spinning = false;
+          cancelAnimationFrame(infiniteSpinFrameId);
+          // Выбираем выигрышный скин случайным образом
+          const winningIndex = Math.floor(Math.random() * skins.length);
+          const winningSkin = skins[winningIndex];
+          
+          // Вычисляем целевое смещение так, чтобы выигрышный скин оказался по центру контейнера
+          const containerWidth = animationContainer.clientWidth;
+          const singleCycle = skins.length * imageWidth;
+          let targetOffsetWithinCycle = winningIndex * imageWidth;
+          // Корректируем targetOffset так, чтобы он был больше текущего смещения
+          let targetOffset = currentOffset - (currentOffset % singleCycle) + targetOffsetWithinCycle;
+          if (targetOffset <= currentOffset) {
+            targetOffset += singleCycle;
+          }
+          // Добавляем несколько полных циклов для эффекта
+          targetOffset += singleCycle * 2;
+          
+          // Анимация замедления (3000 мс) с экспоненциальным замедлением
+          const duration = 3000;
+          let startDecelerationTime = null;
+          function easeOutExpo(t) {
+            return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+          }
+          function decelerate(timestamp) {
+            if (!startDecelerationTime) startDecelerationTime = timestamp;
+            const elapsed = timestamp - startDecelerationTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutExpo(progress);
+            const newOffset = currentOffset + (targetOffset - currentOffset) * easedProgress;
+            track.style.transform = `translateX(-${newOffset}px)`;
+            if (progress < 1) {
+              requestAnimationFrame(decelerate);
+            } else {
+              resultDiv.innerHTML = `
+                <p>Вітаємо! Ви отримали: <strong>${winningSkin.name}</strong></p>
+                <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">
+              `;
+              animationInProgress = false;
+            }
+          }
+          requestAnimationFrame(decelerate);
+        }, 3000); // 3 секунды бесконечного вращения
+        
+        modal.classList.remove('hidden');
+      }
+      
+      function closeModal() {
+        modal.classList.add('hidden');
+        animationContainer.innerHTML = '';
+        resultDiv.innerHTML = '';
+        animationInProgress = false;
+      }
+    });
+  </script>
 </body>
 </html>
