@@ -54,6 +54,12 @@ main {
   text-align: center;
   position: relative;
 }
+.cases-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
 .case {
   position: relative;
   width: 200px;
@@ -62,7 +68,6 @@ main {
   border-radius: 10px;
   background: #222;
   overflow: hidden;
-  margin: 0 auto;
   transition: transform 0.5s ease;
 }
 .case.open {
@@ -76,7 +81,7 @@ main {
     transform: translateX(100px);
   }
 }
-#case-img {
+.case-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -134,7 +139,6 @@ main {
   animation-delay: 1s;
 }
 .close-btn {
-  margin-top: 20px;
   padding: 8px 15px;
   font-size: 16px;
   background-color: #1e1e1e;
