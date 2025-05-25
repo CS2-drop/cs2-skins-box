@@ -63,25 +63,25 @@
     #wheel {
       display: flex;
       overflow-x: hidden;
-      width: 600px;
-      height: 150px;
+      width: 800px;
+      height: 200px;
       border: 2px solid #0ff;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       background-color: #000;
     }
     .skin {
-      min-width: 120px;
+      min-width: 150px;
       margin: 10px;
     }
     .skin img {
-      width: 100px;
+      width: 130px;
     }
     .arrow {
       position: absolute;
-      top: -35px;
+      top: -40px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 40px;
+      font-size: 45px;
       color: #0ff;
     }
     #result {
@@ -90,7 +90,7 @@
       transition: opacity 0.5s ease;
     }
     #result img {
-      width: 120px;
+      width: 140px;
       margin-top: 10px;
     }
   </style>
@@ -153,32 +153,33 @@
       const result = document.getElementById('result');
       wheel.innerHTML = '';
       result.innerHTML = '';
-      const skins = caseSkins[caseId];
 
+      const skins = caseSkins[caseId];
       const spinItems = [];
-      for (let i = 0; i < 40; i++) {
+
+      for (let i = 0; i < 60; i++) {
         const randomSkin = skins[Math.floor(Math.random() * skins.length)];
         spinItems.push(randomSkin);
-        const skinDiv = document.createElement('div');
-        skinDiv.className = 'skin';
-        skinDiv.innerHTML = `<img src="${randomSkin}">`;
-        wheel.appendChild(skinDiv);
+        const skinEl = document.createElement('div');
+        skinEl.className = 'skin';
+        skinEl.innerHTML = `<img src="${randomSkin}">`;
+        wheel.appendChild(skinEl);
       }
 
       document.getElementById('popup').style.display = 'flex';
 
-      const targetIndex = 20;
+      const targetIndex = 30;
       const targetSkin = spinItems[targetIndex];
-      const targetScroll = targetIndex * 140 - 300;
+      const targetScroll = targetIndex * 170 - 400;
 
       let position = 0;
-      let speed = 70;
+      let speed = 90;
 
       const interval = setInterval(() => {
         position += speed;
         wheel.scrollLeft = position;
 
-        if (position >= targetScroll - 300 && speed > 6) {
+        if (position >= targetScroll - 400 && speed > 6) {
           speed -= 2;
         }
 
