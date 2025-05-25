@@ -67,7 +67,6 @@
       height: 100px;
       border: 2px solid #0ff;
       margin-bottom: 20px;
-      scroll-behavior: smooth;
       background-color: #000;
     }
     .skin {
@@ -88,6 +87,7 @@
     #result {
       margin-top: 15px;
       font-size: 18px;
+      transition: opacity 0.5s ease;
     }
     #result img {
       width: 100px;
@@ -155,29 +155,42 @@
       result.innerHTML = '';
       const skins = caseSkins[caseId];
 
-      let spinItems = [];
-      for (let i = 0; i < 30; i++) {
+      const spinItems = [];
+      for (let i = 0; i < 40; i++) {
         const randomSkin = skins[Math.floor(Math.random() * skins.length)];
         spinItems.push(randomSkin);
-        const skinEl = document.createElement('div');
-        skinEl.className = 'skin';
-        skinEl.innerHTML = `<img src="${randomSkin}">`;
-        wheel.appendChild(skinEl);
+        const skinDiv = document.createElement('div');
+        skinDiv.className = 'skin';
+        skinDiv.innerHTML = `<img src="${randomSkin}">`;
+        wheel.appendChild(skinDiv);
       }
 
       document.getElementById('popup').style.display = 'flex';
 
-      const targetIndex = 15; // центральная позиция
+      const targetIndex = 20;
       const targetSkin = spinItems[targetIndex];
-      const scrollPos = targetIndex * 120 - 150;
+      const targetScroll = targetIndex * 120 - 150;
 
-      setTimeout(() => {
-        wheel.scrollTo({ left: scrollPos, behavior: 'smooth' });
+      let position = 0;
+      let speed = 60;
 
-        setTimeout(() => {
-          result.innerHTML = `<p>Випав скін:</p><img src="${targetSkin}">`;
-        }, 1500); // задержка чтобы успела прокрутиться
-      }, 200);
+      const interval = setInterval(() => {
+        position += speed;
+        wheel.scrollLeft = position;
+
+        if (position >= targetScroll - 300 && speed > 8) {
+          speed -= 2;
+        }
+
+        if (position >= targetScroll) {
+          clearInterval(interval);
+          wheel.scrollLeft = targetScroll;
+
+          setTimeout(() => {
+            result.innerHTML = `<p>Випав скін:</p><img src="${targetSkin}">`;
+          }, 300);
+        }
+      }, 30);
     }
 
     function closePopup() {
