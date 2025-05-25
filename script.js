@@ -1,30 +1,31 @@
 document.addEventListener("DOMContentLoaded", function() {
   var openBtn = document.getElementById("open-box-btn");
   var modal = document.getElementById("modal");
-  var animationBox = document.getElementById("animation-box");
-  var caseImg = document.getElementById("case-img");
   var closeBtn = document.getElementById("close-modal");
-  var cases = [
-    "cs2-skins-box/images/cases/case1.jpg",
-    "cs2-skins-box/images/cases/case2.jpg",
-    "cs2-skins-box/images/cases/case3.jpg"
-  ];
+  var boxes = document.querySelectorAll(".case");
+
   openBtn.addEventListener("click", function() {
     modal.style.display = "flex";
-    var randomIndex = Math.floor(Math.random() * cases.length);
-    caseImg.src = cases[randomIndex];
-    setTimeout(function() {
-      animationBox.classList.add("open");
-    }, 100);
+    boxes.forEach(function(box, index) {
+      setTimeout(function() {
+        box.classList.add("open");
+      }, index * 200);
+    });
   });
+
   closeBtn.addEventListener("click", function() {
     modal.style.display = "none";
-    animationBox.classList.remove("open");
+    boxes.forEach(function(box) {
+      box.classList.remove("open");
+    });
   });
+
   modal.addEventListener("click", function(e) {
     if (e.target === modal) {
       modal.style.display = "none";
-      animationBox.classList.remove("open");
+      boxes.forEach(function(box) {
+        box.classList.remove("open");
+      });
     }
   });
 });
