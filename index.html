@@ -89,7 +89,11 @@
     #result {
       margin-top: 20px;
       font-size: 20px;
-      transition: opacity 0.5s ease;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    #result.show {
+      opacity: 1;
     }
     #result img {
       width: 140px;
@@ -155,6 +159,7 @@
       const result = document.getElementById('result');
       wheel.innerHTML = '';
       result.innerHTML = '';
+      result.classList.remove('show');
 
       const skins = caseSkins[caseId];
       const spinItems = [];
@@ -174,21 +179,21 @@
       const targetSkin = spinItems[targetIndex];
       const targetScroll = targetIndex * 150 - 400;
 
-      let position = 0;
-      let speed = 100;
+      const duration = 5000;
+      const start = performance.now();
+      const startPos = 0;
 
-      function animateScroll() {
-        if (position < targetScroll) {
-          speed *= 0.97; // постепенное замедление
-          position += speed;
-          if (position > targetScroll) position = targetScroll;
-          wheel.scrollLeft = position;
+      function animateScroll(timestamp) {
+        const elapsed = timestamp - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 4);
+        wheel.scrollLeft = startPos + (targetScroll - startPos) * easeOut;
+
+        if (progress < 1) {
           requestAnimationFrame(animateScroll);
         } else {
-          wheel.scrollLeft = targetScroll;
-          setTimeout(() => {
-            result.innerHTML = `<p>Випав скін:</p><img src="${targetSkin}">`;
-          }, 300);
+          result.innerHTML = `<p>Випав скін:</p><img src="${targetSkin}">`;
+          result.classList.add('show');
         }
       }
 
