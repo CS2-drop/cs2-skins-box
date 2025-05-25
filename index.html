@@ -7,6 +7,10 @@
   <style>
     body {
       background-color: #111;
+      background-image: url('images/background.jpg'); /* ← Укажи свой путь */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: #fff;
       font-family: Arial, sans-serif;
       text-align: center;
@@ -71,8 +75,9 @@
     }
     .skin {
       min-width: 150px;
-      padding: 0;
       flex-shrink: 0;
+      margin: 0; /* убрано черное расстояние */
+      padding: 0;
     }
     .skin img {
       width: 150px;
@@ -163,8 +168,9 @@
 
       const skins = caseSkins[caseId];
       const spinItems = [];
+      const visibleCount = 60;
 
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < visibleCount; i++) {
         const randomSkin = skins[Math.floor(Math.random() * skins.length)];
         spinItems.push(randomSkin);
         const skinEl = document.createElement('div');
@@ -175,9 +181,12 @@
 
       document.getElementById('popup').style.display = 'flex';
 
-      const targetIndex = 30;
+      // Централизованный выпад
+      const targetIndex = Math.floor(Math.random() * visibleCount);
       const targetSkin = spinItems[targetIndex];
-      const targetScroll = targetIndex * 150 - 400;
+      const skinWidth = 150;
+      const wheelVisibleWidth = 800;
+      const targetScroll = targetIndex * skinWidth - (wheelVisibleWidth / 2) + (skinWidth / 2);
 
       const duration = 5000;
       const start = performance.now();
