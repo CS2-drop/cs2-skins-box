@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CS2 Кейси</title>
   <style>
     html, body {
@@ -22,43 +22,39 @@
       text-align: center;
     }
 
-    /* Top navigation bar */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: rgba(0, 0, 0, 0.85);
+      padding: 12px 20px;
+      background-color: rgba(0, 0, 0, 0.8);
       border-bottom: 2px solid #0ff;
-      padding: 12px 40px;
       font-size: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
     }
 
-    .top-bar a {
+    .nav-links a {
+      margin-right: 20px;
       color: #0ff;
-      margin-right: 25px;
       text-decoration: none;
-      transition: color 0.3s ease;
     }
 
-    .top-bar a:last-child {
-      margin-right: 0;
+    .nav-links a:hover {
+      text-decoration: underline;
     }
 
-    .top-bar a:hover {
-      color: #fff;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-right {
-      color: #0ff;
+    .balance {
       font-weight: bold;
+      color: #0ff;
+    }
+
+    .balance.animate {
+      animation: pulse 0.5s;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); color: #fff; }
+      100% { transform: scale(1); }
     }
 
     .logo {
@@ -201,41 +197,42 @@
 </head>
 <body>
 
-  <!-- Top Navigation -->
+  <!-- Верхня панель -->
   <div class="top-bar">
-    <div class="nav-left">
+    <div class="nav-links">
       <a href="#">Апгрейд</a>
       <a href="#">Бонуси</a>
       <a href="#">Рулетка</a>
       <a href="#">Поповнення</a>
     </div>
-    <div class="nav-right">
-      💰 Баланс: 1 000₴
-    </div>
+    <div class="balance">💰 Баланс: <span id="balanceAmount">100000</span></div>
   </div>
 
-  <!-- Логотип по центру -->
+  <!-- Логотип -->
   <div class="logo">
-    <img src="images/logo.jpg" alt="Логотип сайту">
+    <img src="images/logo.jpg" alt="Логотип сайту" />
   </div>
 
   <!-- Кейси -->
   <div class="cases">
     <div class="case">
-      <img src="images/cases/case1.jpg" alt="Кейс 1">
-      <button onclick="openCase(1)">Відкрити кейс</button>
+      <img src="images/cases/case1.jpg" alt="Кейс 1" />
+      <p>Ціна: 500</p>
+      <button onclick="openCase(1, 500)">Відкрити кейс</button>
     </div>
     <div class="case">
-      <img src="images/cases/case2.jpg" alt="Кейс 2">
-      <button onclick="openCase(2)">Відкрити кейс</button>
+      <img src="images/cases/case2.jpg" alt="Кейс 2" />
+      <p>Ціна: 2500</p>
+      <button onclick="openCase(2, 2500)">Відкрити кейс</button>
     </div>
     <div class="case">
-      <img src="images/cases/case3.jpg" alt="Кейс 3">
-      <button onclick="openCase(3)">Відкрити кейс</button>
+      <img src="images/cases/case3.jpg" alt="Кейс 3" />
+      <p>Ціна: 10000</p>
+      <button onclick="openCase(3, 10000)">Відкрити кейс</button>
     </div>
   </div>
 
-  <!-- Попап з прокруткою -->
+  <!-- Попап -->
   <div id="popup">
     <div id="popupContent">
       <div id="wheelContainer">
@@ -268,13 +265,29 @@
 
   <!-- Скрипти -->
   <script>
+    let balance = 100000;
+    const balanceEl = document.getElementById("balanceAmount");
+
     const caseSkins = {
       1: ['images/skins/Skin_A1.png','images/skins/Skin_A2.jpg','images/skins/Skin_A3.jpg','images/skins/Skin_A4.jpg','images/skins/Skin_A5.jpg'],
       2: ['images/skins/Skin_B1.png','images/skins/Skin_B2.png','images/skins/Skin_B3.png','images/skins/Skin_B4.png','images/skins/Skin_B5.png'],
       3: ['images/skins/Skin_C1.png','images/skins/Skin_C2.png','images/skins/Skin_C3.png','images/skins/Skin_C4.png','images/skins/Skin_C5.png']
     };
 
-    function openCase(caseId) {
+    function updateBalanceDisplay() {
+      balanceEl.textContent = balance;
+      balanceEl.parentElement.classList.add("animate");
+      setTimeout(() => balanceEl.parentElement.classList.remove("animate"), 500);
+    }
+
+    function openCase(caseId, price) {
+      if (balance < price) {
+        alert("Недостатньо коштів для відкриття кейсу.");
+        return;
+      }
+      balance -= price;
+      updateBalanceDisplay();
+
       const wheel = document.getElementById('wheel');
       const result = document.getElementById('result');
       wheel.innerHTML = '';
