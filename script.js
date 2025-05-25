@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Анимация появления элементов кейсов при прокрутке
   const revealElements = document.querySelectorAll('.case');
   const observerOptions = {
     root: null,
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }, observerOptions);
   revealElements.forEach(el => observer.observe(el));
 
+  // Основные элементы страницы
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
+  // Данные по кейсам
   const casesData = {
     "1": [
       { name: "Скін A1", img: "images/skins/Skin%20A1.jpg" },
@@ -45,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
+  // Добавляем обработчики событий для кнопок открытия кейсов
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (animationInProgress) return;
@@ -54,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Обработчики закрытия модального окна
   closeModalBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', function(e) {
     if (e.target === modal) closeModal();
@@ -62,45 +67,45 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Изменённая функция для горизонтальной анимации "прокрут как в барабана"
+  // Функция анимации горизонтальной прокрутки "барабана"
   function animateDrumSpin(skins, winningSkin, callback) {
+    // Получаем элемент для анимации
     const track = document.getElementById('skinsTrack');
+    if (!track) {
+      console.error("Элемент с id 'skinsTrack' не найден!");
+      return;
+    }
     track.innerHTML = '';
-    
-    // Для горизонтальной анимации используем ширину изображения
-    const imageWidth = 150;
-    const repeats = 20;
+
+    const imageWidth = 150; // ширина одного изображения
+    const repeats = 20;     // количество повторов набора скинов
     let content = '';
-    
-    // Формируем ряд изображений (повторяем несколько раз для эффекта прокрутки)
+
+    // Формируем ряд изображений для эффекта прокрутки
     for (let i = 0; i < repeats; i++) {
       skins.forEach(skin => {
         content += `<img src="${skin.img}" alt="${skin.name}" class="drum-skin">`;
       });
     }
     track.innerHTML = content;
-    
-    // Располагаем изображения в один ряд
     track.style.display = 'flex';
-    
-    const totalImages = repeats * skins.length;
+
     const containerWidth = animationContainer.clientWidth;
-    
-    // Находим индекс выигрышного скина в массиве исходных скинов
+    // Определяем индекс выигрышного скина в исходном массиве
     let winningIndex = skins.findIndex(skin => skin.name === winningSkin.name);
-    // Берём последний повтор как финал
+    // Выбираем последний повтор как финал анимации
     let finalIndex = (repeats - 1) * skins.length + winningIndex;
     // Расчёт сдвига так, чтобы выигрышный скин оказался по центру контейнера
     const finalOffset = finalIndex * imageWidth - (containerWidth - imageWidth) / 2;
-    
-    // Анимация с использованием requestAnimationFrame (3000 мс)
+
+    // Анимация по времени (3000 мс) с экспоненциальным замедлением
     const duration = 3000;
     let startTime = null;
-    
+
     function easeOutExpo(t) {
       return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
     }
-    
+
     function animate(time) {
       if (!startTime) startTime = time;
       let elapsed = time - startTime;
@@ -116,28 +121,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     requestAnimationFrame(animate);
   }
-  
+
+  // Функция открытия кейса
   function openCase(caseId) {
     animationInProgress = true;
     resultDiv.innerHTML = '';
-   
-    // Обновляем контейнер анимации
+
+    // Создаем элемент для анимации скинов внутри контейнера
     animationContainer.innerHTML = '<div class="skins-track" id="skinsTrack"></div>';
-    
+
     const skins = casesData[caseId];
     const winningIndex = Math.floor(Math.random() * skins.length);
     const winningSkin = skins[winningIndex];
-    
 
     animateDrumSpin(skins, winningSkin, function() {
-      resultDiv.innerHTML = `<p>Вітаємо! Ви отримали: <strong>${winningSkin.name}</strong></p>
-                             <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">`;
+      resultDiv.innerHTML = `
+        <p>Вітаємо! Ви отримали: <strong>${winningSkin.name}</strong></p>
+        <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">
+      `;
       animationInProgress = false;
     });
-    
+
     modal.classList.remove('hidden');
   }
-  
+
+  // Функция закрытия модального окна
   function closeModal() {
     modal.classList.add('hidden');
     animationContainer.innerHTML = '';
