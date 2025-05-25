@@ -6,33 +6,14 @@
   <title>CS2 Кейси</title>
   <style>
     html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  }
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
-    <script>
-  function addComment() {
-    const input = document.getElementById('commentInput');
-    const text = input.value.trim();
-    if (text === '') return;
-
-    const li = document.createElement('li');
-    li.style.marginBottom = '10px';
-    li.innerHTML = `
-      <span>${text}</span>
-      <button onclick="this.parentElement.remove()" style="margin-left: 10px; padding: 4px 8px; background-color: #f00; color: white; border: none; border-radius: 4px; cursor: pointer;">Видалити</button>
-    `;
-
-    document.getElementById('commentList').appendChild(li);
-    input.value = '';
-   }
-  </script>
-
-    
     body {
       background-color: #111;
-      background-image: url('images/background.jpg'); /* ← Укажи свой путь */
+      background-image: url('images/background.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -40,15 +21,28 @@
       font-family: Arial, sans-serif;
       text-align: center;
     }
+
+    .logo {
+      margin-top: 20px;
+    }
+
+    .logo img {
+      width: 180px;
+      display: block;
+      margin: 0 auto;
+    }
+
     h1 {
       margin-top: 20px;
     }
+
     .cases {
       display: flex;
       justify-content: center;
       gap: 40px;
       margin-top: 30px;
     }
+
     .case {
       border: 2px solid #0ff;
       padding: 10px;
@@ -56,10 +50,12 @@
       background-color: #222;
       border-radius: 10px;
     }
+
     .case img {
       width: 100%;
       border-radius: 10px;
     }
+
     button {
       background-color: #0ff;
       color: #000;
@@ -69,6 +65,7 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
     #popup {
       position: fixed;
       top: 0; left: 0;
@@ -80,15 +77,18 @@
       z-index: 9999;
       flex-direction: column;
     }
+
     #popupContent {
       background: #222;
       padding: 40px;
       border-radius: 12px;
       text-align: center;
     }
+
     #wheelContainer {
       position: relative;
     }
+
     #wheel {
       display: flex;
       overflow-x: hidden;
@@ -98,16 +98,19 @@
       margin-bottom: 30px;
       background-color: #000;
     }
+
     .skin {
       min-width: 150px;
       flex-shrink: 0;
-      margin: 0; /* убрано черное расстояние */
+      margin: 0;
       padding: 0;
     }
+
     .skin img {
       width: 150px;
       display: block;
     }
+
     .arrow {
       position: absolute;
       top: -40px;
@@ -116,48 +119,55 @@
       font-size: 45px;
       color: #0ff;
     }
+
     #result {
       margin-top: 20px;
       font-size: 20px;
       opacity: 0;
       transition: opacity 1s ease;
     }
+
     #result.show {
       opacity: 1;
     }
+
     #result img {
       width: 140px;
       margin-top: 10px;
     }
 
     footer {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #aaa;
-  padding: 20px 10px;
-  font-size: 14px;
-  margin-top: 40px;
-}
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #aaa;
+      padding: 20px 10px;
+      font-size: 14px;
+      margin-top: 40px;
+    }
 
-.footer-content {
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
 
-footer a {
-  color: #0ff;
-  text-decoration: none;
-}
+    footer a {
+      color: #0ff;
+      text-decoration: none;
+    }
 
-footer a:hover {
-  text-decoration: underline;
-}
-
-    
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <img src="images/logo.jpg" alt="Логотип сайту" style="margin-top: 20px; width: 180px;">
+
+  <!-- Логотип по центру -->
+  <div class="logo">
+    <img src="images/logo.jpg" alt="Логотип сайту">
+  </div>
+
+  <!-- Кейсы -->
   <div class="cases">
     <div class="case">
       <img src="images/cases/case1.jpg" alt="Кейс 1">
@@ -173,6 +183,7 @@ footer a:hover {
     </div>
   </div>
 
+  <!-- Попап з прокруткою -->
   <div id="popup">
     <div id="popupContent">
       <div id="wheelContainer">
@@ -184,29 +195,31 @@ footer a:hover {
     </div>
   </div>
 
+  <!-- Коментарі -->
+  <div id="commentsSection" style="margin-top: 60px; padding: 20px; background-color: rgba(0,0,0,0.7); border-top: 2px solid #0ff;">
+    <h2>💬 Коментарі</h2>
+    <div>
+      <input type="text" id="commentInput" placeholder="Напиши коментар..." style="padding: 8px; width: 300px; border-radius: 5px;">
+      <button onclick="addComment()" style="padding: 8px 12px; border-radius: 5px; margin-left: 10px; background-color: #0ff; color: #000;">Додати</button>
+    </div>
+    <ul id="commentList" style="list-style: none; padding: 0; margin-top: 20px;"></ul>
+  </div>
+
+  <!-- Підвал -->
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 Відкриття кейсів CS2. Усі права захищено.</p>
+      <p>Зв’язок: <a href="mailto:support@example.com">support@example.com</a></p>
+      <p><a href="#">Політика конфіденційності</a> | <a href="#">Умови користування</a></p>
+    </div>
+  </footer>
+
+  <!-- Скрипти -->
   <script>
     const caseSkins = {
-      1: [
-        'images/skins/Skin_A1.png',
-        'images/skins/Skin_A2.jpg',
-        'images/skins/Skin_A3.jpg',
-        'images/skins/Skin_A4.jpg',
-        'images/skins/Skin_A5.jpg',
-      ],
-      2: [
-        'images/skins/Skin_B1.png',
-        'images/skins/Skin_B2.png',
-        'images/skins/Skin_B3.png',
-        'images/skins/Skin_B4.png',
-        'images/skins/Skin_B5.png',
-      ],
-      3: [
-        'images/skins/Skin_C1.png',
-        'images/skins/Skin_C2.png',
-        'images/skins/Skin_C3.png',
-        'images/skins/Skin_C4.png',
-        'images/skins/Skin_C5.png',
-      ]
+      1: ['images/skins/Skin_A1.png','images/skins/Skin_A2.jpg','images/skins/Skin_A3.jpg','images/skins/Skin_A4.jpg','images/skins/Skin_A5.jpg'],
+      2: ['images/skins/Skin_B1.png','images/skins/Skin_B2.png','images/skins/Skin_B3.png','images/skins/Skin_B4.png','images/skins/Skin_B5.png'],
+      3: ['images/skins/Skin_C1.png','images/skins/Skin_C2.png','images/skins/Skin_C3.png','images/skins/Skin_C4.png','images/skins/Skin_C5.png']
     };
 
     function openCase(caseId) {
@@ -231,7 +244,6 @@ footer a:hover {
 
       document.getElementById('popup').style.display = 'flex';
 
-      // Централизованный выпад
       const targetIndex = Math.floor(Math.random() * visibleCount);
       const targetSkin = spinItems[targetIndex];
       const skinWidth = 150;
@@ -262,23 +274,21 @@ footer a:hover {
     function closePopup() {
       document.getElementById('popup').style.display = 'none';
     }
+
+    function addComment() {
+      const input = document.getElementById('commentInput');
+      const text = input.value.trim();
+      if (text === '') return;
+
+      const li = document.createElement('li');
+      li.style.marginBottom = '10px';
+      li.innerHTML = `
+        <span>${text}</span>
+        <button onclick="this.parentElement.remove()" style="margin-left: 10px; padding: 4px 8px; background-color: #f00; color: white; border: none; border-radius: 4px; cursor: pointer;">Видалити</button>
+      `;
+      document.getElementById('commentList').appendChild(li);
+      input.value = '';
+    }
   </script>
-
-<div style="margin-top: 200px; padding: 20px; color: #ccc; font-size: 14px;">
-  <p>© 2025 Відкриття кейсів CS2. Усі права захищено.</p>
-  <p>Зв’язок: <a href="mailto:support@example.com" style="color: #0ff;">support@example.com</a></p>
-  <p><a href="#" style="color: #0ff;">Політика конфіденційності</a> | <a href="#" style="color: #0ff;">Умови користування</a></p>
-</div>
-
-<div id="commentsSection" style="margin-top: 60px; padding: 20px; background-color: rgba(0,0,0,0.7); border-top: 2px solid #0ff;">
-  <h2>💬 Коментарі</h2>
-  <div>
-    <input type="text" id="commentInput" placeholder="Напиши коментар..." style="padding: 8px; width: 300px; border-radius: 5px;">
-    <button onclick="addComment()" style="padding: 8px 12px; border-radius: 5px; margin-left: 10px; background-color: #0ff; color: #000;">Додати</button>
-  </div>
-  <ul id="commentList" style="list-style: none; padding: 0; margin-top: 20px;"></ul>
-</div>
-
-  
 </body>
 </html>
