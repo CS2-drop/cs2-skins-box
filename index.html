@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skin Box – Открытие кейсов CS2</title>
+    <title>Skin Box – Відкриття кейсів CS2</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -11,39 +11,22 @@
       <div class="logo">skin box</div>
     </header>
     <main>
-      <div class="cases">
-
-        <div class="case" id="case1">
-          <div class="weapon-list">
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-          </div>
-        </div>
-
-        <div class="case" id="case2">
-          <div class="weapon-list">
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-          </div>
-        </div>
-
-        <div class="case" id="case3">
-          <div class="weapon-list">
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-            <div class="weapon"></div>
-          </div>
-        </div>
-      </div>
+      <button id="open-box-btn">Відкрити бокс</button>
     </main>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div class="case" id="animation-box">
+          <div class="weapon-list">
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+          </div>
+        </div>
+        <button id="close-modal" class="close-btn">Закрити</button>
+      </div>
+    </div>
     <script src="script.js"></script>
   </body>
 </html>
