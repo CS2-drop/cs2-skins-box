@@ -1,134 +1,49 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Skin Box – Открытие кейсов CS2</title>
-  <style>
-    /* Основные параметры для тёмного стиля */
-    body {
-      background-color: #121212;
-      color: #e0e0e0;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-size: cover;
-      background-position: center;
-    }
-
-    /* Шапка сайта */
-    header {
-      text-align: center;
-      padding: 20px;
-      border-bottom: 1px solid #333;
-    }
-
-    /* Область логотипа */
-    #logo {
-      display: inline-block;
-      margin-bottom: 10px;
-    }
-    #logo img {
-      width: 150px;
-      height: auto;
-    }
-    
-    /* Секция загрузки фонового изображения */
-    .upload-bg {
-      text-align: center;
-      margin: 20px;
-    }
-    .upload-bg input[type="file"] {
-      background-color: #333;
-      color: #e0e0e0;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    /* Секция для кейсов */
-    .cases {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 20px;
-    }
-    .case {
-      background-color: #1e1e1e;
-      border: 1px solid #333;
-      margin: 10px;
-      padding: 10px;
-      width: 200px;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .case img {
-      max-width: 100%;
-      border-radius: 4px;
-    }
-    .open-case-btn {
-      background-color: #444;
-      color: #e0e0e0;
-      border: none;
-      padding: 8px 16px;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    .open-case-btn:hover {
-      background-color: #666;
-    }
-  </style>
-</head>
-<body>
-  <!-- Заголовок и логотип -->
-  <header>
-    <div id="logo">
-      <!-- Логотип сгенерирован автоматически. Можно заменить на свой вариант. -->
-      <img src="https://bing.com/th/id/BCO.0898114e-c521-4429-b37b-dced390290d9.png" alt="Skin Box Logo">
-    </div>
-    <h1>Skin Box</h1>
-  </header>
-
-  <!-- Загрузка фонового фото -->
-  <div class="upload-bg">
-    <input type="file" id="bgUploader" accept="image/*">
-    <p>Загрузите фото для фона</p>
-  </div>
-
-  <!-- Основной контент сайта -->
-  <main>
-    <section class="cases">
-      <!-- Пример блока с кейсом 1 -->
-      <div class="case">
-        <img src="images/cases/case1.jpg" alt="Кейс 1">
-        <button class="open-case-btn">Открыть кейс 1</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skin Box – Открытие кейсов CS2</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">skin box</div>
+    </header>
+    <main>
+      <div class="cases">
+        <!-- Первый кейс -->
+        <div class="case" id="case1">
+          <div class="weapon-list">
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+          </div>
+        </div>
+        <!-- Второй кейс -->
+        <div class="case" id="case2">
+          <div class="weapon-list">
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+          </div>
+        </div>
+        <!-- Третий кейс -->
+        <div class="case" id="case3">
+          <div class="weapon-list">
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+            <div class="weapon"></div>
+          </div>
+        </div>
       </div>
-      <!-- Пример блока с кейсом 2 -->
-      <div class="case">
-        <img src="images/cases/case2.jpg" alt="Кейс 2">
-        <button class="open-case-btn">Открыть кейс 2</button>
-      </div>
-      <!-- Пример блока с кейсом 3 -->
-      <div class="case">
-        <img src="images/cases/case3.jpg" alt="Кейс 3">
-        <button class="open-case-btn">Открыть кейс 3</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- JavaScript для загрузки и отображения фонового изображения -->
-  <script>
-    document.getElementById('bgUploader').addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e){
-          document.body.style.backgroundImage = "url('" + e.target.result + "')";
-        }
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
-</body>
+    </main>
+    <script src="script.js"></script>
+  </body>
 </html>
