@@ -74,12 +74,8 @@ main {
   animation: slideRight 0.5s forwards;
 }
 @keyframes slideRight {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100px);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(100px); }
 }
 .case-img {
   width: 100%;
@@ -114,30 +110,14 @@ main {
   animation: dropOut 0.5s forwards;
 }
 @keyframes dropOut {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
-.case.open .weapon:nth-child(1) {
-  animation-delay: 0.6s;
-}
-.case.open .weapon:nth-child(2) {
-  animation-delay: 0.7s;
-}
-.case.open .weapon:nth-child(3) {
-  animation-delay: 0.8s;
-}
-.case.open .weapon:nth-child(4) {
-  animation-delay: 0.9s;
-}
-.case.open .weapon:nth-child(5) {
-  animation-delay: 1s;
-}
+.case.open .weapon:nth-child(1) { animation-delay: 0.6s; }
+.case.open .weapon:nth-child(2) { animation-delay: 0.7s; }
+.case.open .weapon:nth-child(3) { animation-delay: 0.8s; }
+.case.open .weapon:nth-child(4) { animation-delay: 0.9s; }
+.case.open .weapon:nth-child(5) { animation-delay: 1s; }
 .close-btn {
   padding: 8px 15px;
   font-size: 16px;
