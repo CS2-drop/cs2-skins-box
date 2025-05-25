@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Анимация появления кейсов при прокрутке
   const revealElements = document.querySelectorAll('.case');
-  const observerOptions = {
-    root: null,
-    threshold: 0.1
-  };
+  const observerOptions = { root: null, threshold: 0.1 };
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -14,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }, observerOptions);
   revealElements.forEach(el => observer.observe(el));
 
+  // Получаем элементы страницы
   const openCaseButtons = document.querySelectorAll('.open-case-btn');
   const modal = document.getElementById('modal');
   const closeModalBtn = document.getElementById('close-modal');
@@ -21,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const resultDiv = document.getElementById('result');
   let animationInProgress = false;
 
+  // Данные кейсов
   const casesData = {
     "1": [
       { name: "Скін A1", img: "images/skins/Skin%20A1.jpg" },
@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
+  // Обработчик для каждой кнопки открытия кейса
   openCaseButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       if (animationInProgress) return;
@@ -62,92 +63,101 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape') closeModal();
   });
 
-  // Функция анимации горизонтального барабана с динамическим расчетом повторений
-  function animateDrumSpin(skins, winningSkin, callback) {
-    const track = document.getElementById('skinsTrack');
-    if (!track) {
-      console.error("Элемент с id 'skinsTrack' не найден!");
-      return;
-    }
-    track.innerHTML = '';
-
-    const imageWidth = 150; // ширина одного изображения
-    let repeats = 20;       // стартовое количество повторов
-    const containerWidth = animationContainer.clientWidth;
-
-    // Определяем индекс выигрышного скина
-    let winningIndex = skins.findIndex(skin => skin.name === winningSkin.name);
-    // Предварительный расчет финального индекса (считаем, что выигрышный скин попадет из последнего повтора)
-    let finalIndex = (repeats - 1) * skins.length + winningIndex;
-    // Вычисляем требуемую общую ширину дорожки так, чтобы крайняя картинка и её отступ не создавали пустоту
-    let requiredWidth = finalIndex * imageWidth + (containerWidth + imageWidth) / 2;
-    let currentTrackWidth = repeats * skins.length * imageWidth;
-    // Если дорожка оказывается слишком короткой, пересчитываем repeats
-    if (requiredWidth > currentTrackWidth) {
-      repeats = Math.ceil(requiredWidth / (skins.length * imageWidth));
-      finalIndex = (repeats - 1) * skins.length + winningIndex;
-    }
-
-    let content = '';
-    for (let i = 0; i < repeats; i++) {
-      skins.forEach(skin => {
-        content += `<img src="${skin.img}" alt="${skin.name}" class="drum-skin">`;
-      });
-    }
-    track.innerHTML = content;
-    track.style.display = 'flex';
-
-    // Расчет сдвига, чтобы выигрышный скин оказался по центру контейнера
-    const finalOffset = finalIndex * imageWidth - (containerWidth - imageWidth) / 2;
-
-    // Анимация за 3000 мс с экспоненциальным замедлением
-    const duration = 3000;
-    let startTime = null;
-    function easeOutExpo(t) {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    }
-    function animate(time) {
-      if (!startTime) startTime = time;
-      let elapsed = time - startTime;
-      let progress = Math.min(elapsed / duration, 1);
-      let easedProgress = easeOutExpo(progress);
-      let currentOffset = easedProgress * finalOffset;
-      track.style.transform = `translateX(-${currentOffset}px)`;
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        callback();
-      }
-    }
-    requestAnimationFrame(animate);
-  }
-
+  // Функция открытия кейса с бесконечным вращением и замедлением
   function openCase(caseId) {
     animationInProgress = true;
-    resultDiv.innerHTML = '';
+    resultDiv.innerHTML = "";
+    modal.classList.remove('hidden');
 
-    // Создаем элемент дорожки для анимации скинов
+    // Создаем контейнер для дорожки с изображениями
     animationContainer.innerHTML = '<div class="skins-track" id="skinsTrack"></div>';
+    const track = document.getElementById('skinsTrack');
 
     const skins = casesData[caseId];
-    const winningIndex = Math.floor(Math.random() * skins.length);
-    const winningSkin = skins[winningIndex];
+    const imageWidth = 150;
+    // Для эффекта бесконечного вращения создаём две копии набора скинов
+    let trackContent = "";
+    for (let i = 0; i < 2; i++) {
+      skins.forEach(skin => {
+        trackContent += `<img src="${skin.img}" alt="${skin.name}" class="drum-skin">`;
+      });
+    }
+    track.innerHTML = trackContent;
+    track.style.display = "flex";
 
-    animateDrumSpin(skins, winningSkin, function() {
-      resultDiv.innerHTML = `
-        <p>Вітаємо! Ви отримали: <strong>${winningSkin.name}</strong></p>
-        <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">
-      `;
-      animationInProgress = false;
-    });
+    // Бесконечное вращение
+    let currentOffset = 0;
+    let spinSpeed = 0.5; // пикселей в миллисекунду
+    let spinning = true;
+    let lastTimestamp = null;
+    function infiniteSpin(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const delta = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+      currentOffset += spinSpeed * delta;
+      const singleCycle = skins.length * imageWidth;
+      // Если достигли конца цикла – сбрасываем
+      if (currentOffset >= singleCycle) {
+        currentOffset -= singleCycle;
+      }
+      track.style.transform = `translateX(-${currentOffset}px)`;
+      if (spinning) {
+        requestAnimationFrame(infiniteSpin);
+      }
+    }
+    requestAnimationFrame(infiniteSpin);
 
-    modal.classList.remove('hidden');
+    // Через 3 секунды останавливаем бесконечное вращение и начинаем замедление
+    setTimeout(() => {
+      spinning = false; // остановка бесконечного вращения
+      // Выбираем выигрышный скин случайным образом
+      const winningIndex = Math.floor(Math.random() * skins.length);
+      const winningSkin = skins[winningIndex];
+
+      const containerWidth = animationContainer.clientWidth;
+      const singleCycle = skins.length * imageWidth;
+      // Вычисляем, чтобы выигрышный скин оказался в центре контейнера
+      const targetCenter = containerWidth / 2 - imageWidth / 2;
+      let desiredRemainder = winningIndex * imageWidth - targetCenter;
+      if (desiredRemainder < 0) desiredRemainder += singleCycle;
+      let remainder = currentOffset % singleCycle;
+      let additionalOffset = (desiredRemainder < remainder)
+        ? singleCycle - (remainder - desiredRemainder)
+        : desiredRemainder - remainder;
+      // Добавим еще несколько полных циклов для эффекта (например, 2 цикла)
+      const finalTarget = currentOffset + additionalOffset + 2 * singleCycle;
+
+      // Анимация замедления (3000 мс) с экспоненциальной функцией easeOutExpo
+      const duration = 3000;
+      let startDecelerationTime = null;
+      function easeOutExpo(t) {
+        return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      }
+      function decelerate(timestamp) {
+        if (!startDecelerationTime) startDecelerationTime = timestamp;
+        const elapsed = timestamp - startDecelerationTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easedProgress = easeOutExpo(progress);
+        const newOffset = currentOffset + (finalTarget - currentOffset) * easedProgress;
+        track.style.transform = `translateX(-${newOffset}px)`;
+        if (progress < 1) {
+          requestAnimationFrame(decelerate);
+        } else {
+          resultDiv.innerHTML = `
+            <p>Вітаємо! Ви отримали: <strong>${winningSkin.name}</strong></p>
+            <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">
+          `;
+          animationInProgress = false;
+        }
+      }
+      requestAnimationFrame(decelerate);
+    }, 3000);
   }
 
   function closeModal() {
-    modal.classList.add('hidden');
-    animationContainer.innerHTML = '';
-    resultDiv.innerHTML = '';
+    modal.classList.add("hidden");
+    animationContainer.innerHTML = "";
+    resultDiv.innerHTML = "";
     animationInProgress = false;
   }
 });
