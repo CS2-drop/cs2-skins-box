@@ -123,12 +123,11 @@ main {
   position: relative;
 }
 
+/* Для изображений в эффекте барабана */
 .drum-skin {
   width: 150px;
   height: 150px;
   object-fit: cover;
-  display: block;
-  margin: 0 auto;
 }
 
 @keyframes fadeIn {
@@ -147,7 +146,6 @@ main {
 .case:nth-child(1) { animation-delay: 0.2s; }
 .case:nth-child(2) { animation-delay: 0.4s; }
 .case:nth-child(3) { animation-delay: 0.6s; }
-
 
 .result {
   font-size: 20px;
