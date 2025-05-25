@@ -71,10 +71,12 @@
     }
     .skin {
       min-width: 150px;
-      margin: 10px;
+      padding: 0;
+      flex-shrink: 0;
     }
     .skin img {
-      width: 130px;
+      width: 150px;
+      display: block;
     }
     .arrow {
       position: absolute;
@@ -170,28 +172,27 @@
 
       const targetIndex = 30;
       const targetSkin = spinItems[targetIndex];
-      const targetScroll = targetIndex * 170 - 400;
+      const targetScroll = targetIndex * 150 - 400;
 
       let position = 0;
-      let speed = 90;
+      let speed = 100;
 
-      const interval = setInterval(() => {
-        position += speed;
-        wheel.scrollLeft = position;
-
-        if (position >= targetScroll - 400 && speed > 6) {
-          speed -= 2;
-        }
-
-        if (position >= targetScroll) {
-          clearInterval(interval);
+      function animateScroll() {
+        if (position < targetScroll) {
+          speed *= 0.97; // постепенное замедление
+          position += speed;
+          if (position > targetScroll) position = targetScroll;
+          wheel.scrollLeft = position;
+          requestAnimationFrame(animateScroll);
+        } else {
           wheel.scrollLeft = targetScroll;
-
           setTimeout(() => {
             result.innerHTML = `<p>Випав скін:</p><img src="${targetSkin}">`;
           }, 300);
         }
-      }, 30);
+      }
+
+      requestAnimationFrame(animateScroll);
     }
 
     function closePopup() {
