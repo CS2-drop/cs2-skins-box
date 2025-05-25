@@ -62,15 +62,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape') closeModal();
   });
 
+  // Изменённая функция для горизонтальной анимации "прокрут как в барабана"
   function animateDrumSpin(skins, winningSkin, callback) {
     const track = document.getElementById('skinsTrack');
     track.innerHTML = '';
     
-    const imageHeight = 150; 
-    const repeats = 20; 
+    // Для горизонтальной анимации используем ширину изображения
+    const imageWidth = 150;
+    const repeats = 20;
     let content = '';
     
-   
+    // Формируем ряд изображений (повторяем несколько раз для эффекта прокрутки)
     for (let i = 0; i < repeats; i++) {
       skins.forEach(skin => {
         content += `<img src="${skin.img}" alt="${skin.name}" class="drum-skin">`;
@@ -78,51 +80,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     track.innerHTML = content;
     
+    // Располагаем изображения в один ряд
+    track.style.display = 'flex';
+    
     const totalImages = repeats * skins.length;
-    const totalHeight = totalImages * imageHeight;
-    const containerHeight = animationContainer.clientHeight;
+    const containerWidth = animationContainer.clientWidth;
     
-    // Знаходимо індекс виграшного скіна у масиві skins
+    // Находим индекс выигрышного скина в массиве исходных скинов
     let winningIndex = skins.findIndex(skin => skin.name === winningSkin.name);
-    // Обираємо останній повтор як фінал
+    // Берём последний повтор как финал
     let finalIndex = (repeats - 1) * skins.length + winningIndex;
-    // Обчислення остаточного зсуву: таким чином, щоб виграшний скін був по центру контейнера
-    const finalOffset = finalIndex * imageHeight - (containerHeight - imageHeight) / 2;
+    // Расчёт сдвига так, чтобы выигрышный скин оказался по центру контейнера
+    const finalOffset = finalIndex * imageWidth - (containerWidth - imageWidth) / 2;
     
-    // Анімація за допомогою requestAnimationFrame (3 сек)
+    // Анимация с использованием requestAnimationFrame (3000 мс)
     const duration = 3000;
     let startTime = null;
+    
     function easeOutExpo(t) {
       return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
     }
     
-    function animateDrum(time) {
+    function animate(time) {
       if (!startTime) startTime = time;
       let elapsed = time - startTime;
       let progress = Math.min(elapsed / duration, 1);
       let easedProgress = easeOutExpo(progress);
       let currentOffset = easedProgress * finalOffset;
-      track.style.transform = `translateY(-${currentOffset}px)`;
+      track.style.transform = `translateX(-${currentOffset}px)`;
       if (progress < 1) {
-        requestAnimationFrame(animateDrum);
+        requestAnimationFrame(animate);
       } else {
         callback();
       }
     }
-    requestAnimationFrame(animateDrum);
+    requestAnimationFrame(animate);
   }
   
   function openCase(caseId) {
     animationInProgress = true;
     resultDiv.innerHTML = '';
    
+    // Обновляем контейнер анимации
     animationContainer.innerHTML = '<div class="skins-track" id="skinsTrack"></div>';
     
     const skins = casesData[caseId];
     const winningIndex = Math.floor(Math.random() * skins.length);
     const winningSkin = skins[winningIndex];
     
-    // Запуск анімації барабана
+
     animateDrumSpin(skins, winningSkin, function() {
       resultDiv.innerHTML = `<p>Вітаємо! Ви отримали: <strong>${winningSkin.name}</strong></p>
                              <img src="${winningSkin.img}" alt="${winningSkin.name}" style="width:200px; border:2px solid #ff6f61; border-radius:10px;">`;
