@@ -49,6 +49,7 @@
       justify-content: center;
       align-items: center;
       z-index: 9999;
+      flex-direction: column;
     }
     #popupContent {
       background: #222;
@@ -56,12 +57,18 @@
       border-radius: 10px;
       text-align: center;
     }
+    #wheelContainer {
+      position: relative;
+    }
     #wheel {
       display: flex;
       overflow-x: hidden;
       width: 400px;
+      height: 100px;
       border: 2px solid #0ff;
       margin-bottom: 20px;
+      scroll-behavior: smooth;
+      background-color: #000;
     }
     .skin {
       min-width: 100px;
@@ -69,6 +76,22 @@
     }
     .skin img {
       width: 80px;
+    }
+    .arrow {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      color: #0ff;
+    }
+    #result {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+    #result img {
+      width: 100px;
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -91,7 +114,11 @@
 
   <div id="popup">
     <div id="popupContent">
-      <div id="wheel"></div>
+      <div id="wheelContainer">
+        <div class="arrow">▼</div>
+        <div id="wheel"></div>
+      </div>
+      <div id="result"></div>
       <button onclick="closePopup()">Закрити</button>
     </div>
   </div>
@@ -123,28 +150,34 @@
 
     function openCase(caseId) {
       const wheel = document.getElementById('wheel');
+      const result = document.getElementById('result');
       wheel.innerHTML = '';
+      result.innerHTML = '';
       const skins = caseSkins[caseId];
 
-      for (let i = 0; i < 20; i++) {
-        const skinIndex = Math.floor(Math.random() * skins.length);
-        const skin = document.createElement('div');
-        skin.className = 'skin';
-        skin.innerHTML = `<img src="${skins[skinIndex]}">`;
-        wheel.appendChild(skin);
+      let spinItems = [];
+      for (let i = 0; i < 30; i++) {
+        const randomSkin = skins[Math.floor(Math.random() * skins.length)];
+        spinItems.push(randomSkin);
+        const skinEl = document.createElement('div');
+        skinEl.className = 'skin';
+        skinEl.innerHTML = `<img src="${randomSkin}">`;
+        wheel.appendChild(skinEl);
       }
 
       document.getElementById('popup').style.display = 'flex';
 
-      wheel.scrollTo({ left: 0 });
-      let pos = 0;
-      let interval = setInterval(() => {
-        pos += 20;
-        wheel.scrollTo({ left: pos });
-        if (pos >= wheel.scrollWidth - 400) {
-          clearInterval(interval);
-        }
-      }, 100);
+      const targetIndex = 15; // центральная позиция
+      const targetSkin = spinItems[targetIndex];
+      const scrollPos = targetIndex * 120 - 150;
+
+      setTimeout(() => {
+        wheel.scrollTo({ left: scrollPos, behavior: 'smooth' });
+
+        setTimeout(() => {
+          result.innerHTML = `<p>Випав скін:</p><img src="${targetSkin}">`;
+        }, 1500); // задержка чтобы успела прокрутиться
+      }, 200);
     }
 
     function closePopup() {
