@@ -53,8 +53,8 @@
     }
     #popupContent {
       background: #222;
-      padding: 30px;
-      border-radius: 10px;
+      padding: 40px;
+      border-radius: 12px;
       text-align: center;
     }
     #wheelContainer {
@@ -63,34 +63,34 @@
     #wheel {
       display: flex;
       overflow-x: hidden;
-      width: 400px;
-      height: 100px;
+      width: 600px;
+      height: 150px;
       border: 2px solid #0ff;
       margin-bottom: 20px;
       background-color: #000;
     }
     .skin {
-      min-width: 100px;
+      min-width: 120px;
       margin: 10px;
     }
     .skin img {
-      width: 80px;
+      width: 100px;
     }
     .arrow {
       position: absolute;
-      top: -25px;
+      top: -35px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 30px;
+      font-size: 40px;
       color: #0ff;
     }
     #result {
-      margin-top: 15px;
-      font-size: 18px;
+      margin-top: 20px;
+      font-size: 20px;
       transition: opacity 0.5s ease;
     }
     #result img {
-      width: 100px;
+      width: 120px;
       margin-top: 10px;
     }
   </style>
@@ -169,16 +169,16 @@
 
       const targetIndex = 20;
       const targetSkin = spinItems[targetIndex];
-      const targetScroll = targetIndex * 120 - 150;
+      const targetScroll = targetIndex * 140 - 300;
 
       let position = 0;
-      let speed = 60;
+      let speed = 70;
 
       const interval = setInterval(() => {
         position += speed;
         wheel.scrollLeft = position;
 
-        if (position >= targetScroll - 300 && speed > 8) {
+        if (position >= targetScroll - 300 && speed > 6) {
           speed -= 2;
         }
 
