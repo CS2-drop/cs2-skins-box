@@ -11,6 +11,25 @@
   padding: 0;
   }
 
+    <script>
+  function addComment() {
+    const input = document.getElementById('commentInput');
+    const text = input.value.trim();
+    if (text === '') return;
+
+    const li = document.createElement('li');
+    li.style.marginBottom = '10px';
+    li.innerHTML = `
+      <span>${text}</span>
+      <button onclick="this.parentElement.remove()" style="margin-left: 10px; padding: 4px 8px; background-color: #f00; color: white; border: none; border-radius: 4px; cursor: pointer;">Видалити</button>
+    `;
+
+    document.getElementById('commentList').appendChild(li);
+    input.value = '';
+   }
+  </script>
+
+    
     body {
       background-color: #111;
       background-image: url('images/background.jpg'); /* ← Укажи свой путь */
@@ -138,7 +157,7 @@ footer a:hover {
   </style>
 </head>
 <body>
-  <h1>Онлайн відкриття кейсів CS2</h1>
+  <img src="images/logo.png" alt="Логотип сайту" style="margin-top: 20px; width: 180px;">
   <div class="cases">
     <div class="case">
       <img src="images/cases/case1.jpg" alt="Кейс 1">
@@ -249,6 +268,15 @@ footer a:hover {
   <p>© 2025 Відкриття кейсів CS2. Усі права захищено.</p>
   <p>Зв’язок: <a href="mailto:support@example.com" style="color: #0ff;">support@example.com</a></p>
   <p><a href="#" style="color: #0ff;">Політика конфіденційності</a> | <a href="#" style="color: #0ff;">Умови користування</a></p>
+</div>
+
+<div id="commentsSection" style="margin-top: 60px; padding: 20px; background-color: rgba(0,0,0,0.7); border-top: 2px solid #0ff;">
+  <h2>💬 Коментарі</h2>
+  <div>
+    <input type="text" id="commentInput" placeholder="Напиши коментар..." style="padding: 8px; width: 300px; border-radius: 5px;">
+    <button onclick="addComment()" style="padding: 8px 12px; border-radius: 5px; margin-left: 10px; background-color: #0ff; color: #000;">Додати</button>
+  </div>
+  <ul id="commentList" style="list-style: none; padding: 0; margin-top: 20px;"></ul>
 </div>
 
   
