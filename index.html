@@ -194,12 +194,13 @@
   </style>
 </head>
 <body>
+
   <div class="top-bar">
     <div class="nav-links">
       <a href="#">Upgrade</a>
       <a href="#">Bonuses</a>
       <a href="#">Roulette</a>
-      <a href="#">Top-up</a>
+      <a href="#">Deposit</a>
     </div>
     <div class="balance">💰 Balance: <span id="balanceAmount">100000</span></div>
   </div>
@@ -237,31 +238,48 @@
     </div>
   </div>
 
+  <div id="commentsSection" style="margin-top: 60px; padding: 20px; background-color: rgba(0,0,0,0.7); border-top: 2px solid #0ff; border-bottom: 2px solid #0ff;">
+    <h2>💬 Comments</h2>
+    <div>
+      <input type="text" id="commentInput" placeholder="Write a comment..." style="padding: 8px; width: 300px; border-radius: 5px;">
+      <button onclick="addComment()" style="padding: 8px 12px; border-radius: 5px; margin-left: 10px; background-color: #0ff; color: #000;">Add</button>
+    </div>
+    <ul id="commentList" style="list-style: none; padding: 0; margin-top: 20px;"></ul>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2025 CS2 Case Opening. All rights reserved.</p>
+      <p>Contact: <a href="mailto:support@example.com">support@example.com</a></p>
+      <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+    </div>
+  </footer>
+
   <script>
     let balance = 100000;
     const balanceEl = document.getElementById("balanceAmount");
 
     const caseSkins = {
       1: [
-        { src: 'images/skins/Skin_A1.png', price: 142098 },
-        { src: 'images/skins/Skin_A2.jpg', price: 8600 },
-        { src: 'images/skins/Skin_A3.jpg', price: 129 },
-        { src: 'images/skins/Skin_A4.jpg', price: 700 },
-        { src: 'images/skins/Skin_A5.jpg', price: 1300 }
+        { image: 'images/skins/Skin_A1.png', price: 142098 },
+        { image: 'images/skins/Skin_A2.jpg', price: 8600 },
+        { image: 'images/skins/Skin_A3.jpg', price: 129 },
+        { image: 'images/skins/Skin_A4.jpg', price: 700 },
+        { image: 'images/skins/Skin_A5.jpg', price: 1300 }
       ],
       2: [
-        { src: 'images/skins/Skin_B1.png', price: 1500 },
-        { src: 'images/skins/Skin_B2.png', price: 2639 },
-        { src: 'images/skins/Skin_B3.png', price: 1238000 },
-        { src: 'images/skins/Skin_B4.png', price: 1347799 },
-        { src: 'images/skins/Skin_B5.png', price: 1298359 }
+        { image: 'images/skins/Skin_B1.png', price: 1500 },
+        { image: 'images/skins/Skin_B2.png', price: 2639 },
+        { image: 'images/skins/Skin_B3.png', price: 1238000 },
+        { image: 'images/skins/Skin_B4.png', price: 1347799 },
+        { image: 'images/skins/Skin_B5.png', price: 1298359 }
       ],
       3: [
-        { src: 'images/skins/Skin_C1.png', price: 17918 },
-        { src: 'images/skins/Skin_C2.png', price: 287985 },
-        { src: 'images/skins/Skin_C3.png', price: 346226 },
-        { src: 'images/skins/Skin_C4.png', price: 8003 },
-        { src: 'images/skins/Skin_C5.png', price: 111901 }
+        { image: 'images/skins/Skin_C1.png', price: 17918 },
+        { image: 'images/skins/Skin_C2.png', price: 287985 },
+        { image: 'images/skins/Skin_C3.png', price: 346226 },
+        { image: 'images/skins/Skin_C4.png', price: 8003 },
+        { image: 'images/skins/Skin_C5.png', price: 111901 }
       ]
     };
 
@@ -273,9 +291,10 @@
 
     function openCase(caseId, price) {
       if (balance < price) {
-        alert("Not enough funds to open the case.");
+        alert("Not enough funds to open this case.");
         return;
       }
+
       balance -= price;
       updateBalanceDisplay();
 
@@ -294,7 +313,7 @@
         spinItems.push(randomSkin);
         const skinEl = document.createElement('div');
         skinEl.className = 'skin';
-        skinEl.innerHTML = `<img src="${randomSkin.src}">`;
+        skinEl.innerHTML = `<img src="${randomSkin.image}">`;
         wheel.appendChild(skinEl);
       }
 
@@ -321,7 +340,7 @@
         } else {
           balance += targetSkin.price;
           updateBalanceDisplay();
-          result.innerHTML = `<p>You got:</p><img src="${targetSkin.src}"><p>Value: ${targetSkin.price}</p>`;
+          result.innerHTML = `<p>You received:</p><img src="${targetSkin.image}"><p>+${targetSkin.price}</p>`;
           result.classList.add('show');
         }
       }
@@ -331,6 +350,21 @@
 
     function closePopup() {
       document.getElementById('popup').style.display = 'none';
+    }
+
+    function addComment() {
+      const input = document.getElementById('commentInput');
+      const text = input.value.trim();
+      if (text === '') return;
+
+      const li = document.createElement('li');
+      li.style.marginBottom = '10px';
+      li.innerHTML = `
+        <span>${text}</span>
+        <button onclick="this.parentElement.remove()" style="margin-left: 10px; padding: 4px 8px; background-color: #f00; color: white; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
+      `;
+      document.getElementById('commentList').appendChild(li);
+      input.value = '';
     }
   </script>
 </body>
